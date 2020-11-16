@@ -1,10 +1,25 @@
+import { TabsPage } from './tabs/tabs.page';
+import { WelcomePage } from './pages/pages/welcome/welcome.page';
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'guide', pathMatch: 'full'
+    // loadChildren: () => import('./pages/pages/welcome/welcome.module').then( m => m.WelcomePageModule)
+  },
+  {
+    path: 'home',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+  },
+  // {
+  //   path: 'welcome',
+  //   component: WelcomePage
+  // },
+  {
+    path: 'guide',
+    loadChildren: () => import('./pages/guide/guide.module').then( m => m.GuidePageModule)
   }
 ];
 @NgModule({
