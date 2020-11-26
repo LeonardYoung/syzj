@@ -1,0 +1,143 @@
+<ion-header>
+  <!-- <ion-toolbar>
+    <ion-title>signup</ion-title>
+  </ion-toolbar> -->
+  <div class="ion-text-center">
+    <img class="logo" src="assets/img/logo.png" alt="">
+  </div>
+  
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <img src="assets/img/registered_one.png" alt="" *ngIf="slideIndex !== 0">
+        <img src="assets/img/registered_one_one.png" alt="" *ngIf="slideIndex === 0">
+      </ion-col>
+      <ion-col class="ion-align-self-center">
+        <hr>
+      </ion-col>
+      <ion-col>
+        <img src="assets/img/registered_two.png" alt="" *ngIf="slideIndex !== 1">
+        <img src="assets/img/registered_two_two.png" alt="" *ngIf="slideIndex === 1">
+      </ion-col>
+      <ion-col class="ion-align-self-center">
+        <hr>
+      </ion-col>
+      <ion-col>
+        <img src="assets/img/registered_three.png" alt="" *ngIf="slideIndex !== 2">
+        <img src="assets/img/registered_three_three.png" alt="" *ngIf="slideIndex === 2">
+      </ion-col>
+      <ion-col class="ion-align-self-center">
+        <hr>
+      </ion-col>
+      <ion-col>
+        <img src="assets/img/register_four.png" alt="" *ngIf="slideIndex !== 3">
+        <img src="assets/img/register_four_four.png" alt="" *ngIf="slideIndex === 3">
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-slides #signupSlides  (ionSlideWillChange)="onSlideWillChange($event)">
+    <ion-slide>
+      <form>
+        <ion-list>
+          <ion-item>
+            <ion-label>11电话号码</ion-label>
+            <ion-input type="tel" placeholder="请输入电话号码"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-button (click)="onNextClick()" expand="block" fill="clear" shape="round">
+              下一步
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </form>
+    </ion-slide>
+
+    <ion-slide>
+      <form>
+        <ion-list>
+          <ion-item>
+            <ion-label>22电话号码</ion-label>
+            <ion-input type="tel" placeholder="请输入电话号码"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-button (click)="onPreClick()" expand="block" fill="clear" shape="round">
+              上一步
+            </ion-button>
+          </ion-item>
+          <ion-item>
+            <ion-button (click)="onNextClick()" expand="block" fill="clear" shape="round">
+              下一步
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </form>
+    </ion-slide>
+
+    <ion-slide>
+      <form>
+        <ion-list>
+          <ion-item>
+            <ion-label>33电话号码</ion-label>
+            <ion-input type="tel" placeholder="请输入电话号码"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-button (click)="onPreClick()" expand="block" fill="clear" shape="round">
+              上一步
+            </ion-button>
+          </ion-item>
+          <ion-item>
+            <ion-button (click)="onNextClick()" expand="block" fill="clear" shape="round">
+              下一步
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </form>
+    </ion-slide>
+
+    <ion-slide>
+      <form>
+        <ion-list>
+          <ion-item>
+            <ion-label>44电话号码</ion-label>
+            <ion-input type="tel" placeholder="请输入电话号码"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-button (click)="onPreClick()" expand="block" fill="clear" shape="round">
+              上一步
+            </ion-button>
+          </ion-item>
+          <ion-item>
+            <ion-button (click)="onNextClick()" expand="block" fill="clear" shape="round">
+              下一步
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </form>
+    </ion-slide>
+
+  </ion-slides>
+  
+  
+</ion-content>
+
+<!-- 
+<ion-col>
+  <img src="assets/img/registered_one.png" alt="" *ngIf="slideIndex!==0">
+  <img src="assets/img/registered_one_one.png" alt="" *ngIf="slideIndex===0">
+</ion-col>
+<ion-col>
+  <img src="assets/img/registered_two.png" alt="" *ngIf="slideIndex!==0">
+  <img src="assets/img/registered_two_two.png" alt="" *ngIf="slideIndex===0">
+</ion-col>
+<ion-col>
+  <img src="assets/img/registered_three.png" alt="" *ngIf="slideIndex!==0">
+  <img src="assets/img/registered_three_three.png" alt="" *ngIf="slideIndex===0">
+</ion-col>
+<ion-col>
+  <img src="assets/img/register_four.png" alt="" *ngIf="slideIndex!==0">
+  <img src="assets/img/register_four_four.png" alt="" *ngIf="slideIndex===0">
+</ion-col> -->

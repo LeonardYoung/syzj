@@ -33,5 +33,9 @@ export class GuidePage implements OnInit {
       this.showSkip = !end;
     });
   }
+  onSkip(){
+    // 跳转到注册页
+    this.router.navigateByUrl('passport/signup')
+  }
 }
 

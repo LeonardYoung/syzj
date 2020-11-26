@@ -8,9 +8,7 @@ export class LocalStorageService {
   constructor() { }
 
   get(key: string, defaultValue: any): any {
-    if (key === 'undefined'){
-      throw new Error('null key passed');
-    }
+    this.checkKey(key);
     let value: any = this.localStorage.getItem(key);
     try{
       value = JSON.parse(value);
@@ -24,14 +22,25 @@ export class LocalStorageService {
   }
 
   insert(key: string, value: any) {
+    this.checkKey(key);
     this.set(key, value);
   }
 
   set(key: string, value: any) {
+    this.checkKey(key);
     this.localStorage.setItem(key, JSON.stringify(value));
   }
 
   remove(key: string) {
+    this.checkKey(key);
     this.localStorage.removeItem(key);
+  }
+  checkKey(key: string){
+    if (key === 'undefined'){
+      throw new Error('null key passed');
+    }
+    if (key.length === 0){
+      throw new Error('lenth of key is 0');
+    }
   }
 }
