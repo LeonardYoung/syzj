@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-11-26 16:25:34
- * @LastEditTime: 2020-11-29 20:45:04
+ * @LastEditTime: 2020-11-29 21:40:14
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \syzj\src\app\routes\passport\signup\signup-vo.ts
@@ -24,6 +24,9 @@ export interface GetCodeVO {
     countMax: number;
 }
 
+/**
+ * @description: 用户模型
+ */
 export interface UserVO {
     id: number;
     phone: string;
@@ -31,9 +34,19 @@ export interface UserVO {
     createTime: Date;
     shopName: string;
 }
-
+/**
+ * @description: 用户登录验证模型
+ */
 export interface LoginAccountVO {
     userid: number;
     identifier: string;
     credential: string;
+}
+/**
+ * @description: 用户登录日志
+ */
+export interface LoginInfo {
+    userid: number;
+    loginTime: number;
+    expirationTime: number;
 }
