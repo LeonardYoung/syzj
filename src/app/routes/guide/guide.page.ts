@@ -29,7 +29,7 @@ export class GuidePage implements OnInit {
     // }
   }
   onSlideWillChange(event) {
-    event.target.isEnd().then((end) => {
+    event.target.isEnd().then((end: any) => {
       this.showSkip = !end;
     });
   }

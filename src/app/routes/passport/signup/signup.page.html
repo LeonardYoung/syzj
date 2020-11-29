@@ -12,45 +12,92 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-        <img src="assets/img/registered_one.png" alt="" *ngIf="slideIndex !== 0">
-        <img src="assets/img/registered_one_one.png" alt="" *ngIf="slideIndex === 0">
+        <img src="assets/img/registered_one.png" alt="" *ngIf="!slideActive(0)">
+        <img src="assets/img/registered_one_one.png" alt="" *ngIf="slideActive(0)">
       </ion-col>
       <ion-col class="ion-align-self-center">
         <hr>
       </ion-col>
       <ion-col>
-        <img src="assets/img/registered_two.png" alt="" *ngIf="slideIndex !== 1">
-        <img src="assets/img/registered_two_two.png" alt="" *ngIf="slideIndex === 1">
+        <img src="assets/img/registered_two.png" alt="" *ngIf="!slideActive(1)">
+        <img src="assets/img/registered_two_two.png" alt="" *ngIf="slideActive(1)">
       </ion-col>
       <ion-col class="ion-align-self-center">
         <hr>
       </ion-col>
       <ion-col>
-        <img src="assets/img/registered_three.png" alt="" *ngIf="slideIndex !== 2">
-        <img src="assets/img/registered_three_three.png" alt="" *ngIf="slideIndex === 2">
+        <img src="assets/img/registered_three.png" alt="" *ngIf="!slideActive(2)">
+        <img src="assets/img/registered_three_three.png" alt="" *ngIf="slideActive(2)">
       </ion-col>
       <ion-col class="ion-align-self-center">
         <hr>
       </ion-col>
       <ion-col>
-        <img src="assets/img/register_four.png" alt="" *ngIf="slideIndex !== 3">
-        <img src="assets/img/register_four_four.png" alt="" *ngIf="slideIndex === 3">
+        <img src="assets/img/register_four.png" alt="" *ngIf="!slideActive(3)">
+        <img src="assets/img/register_four_four.png" alt="" *ngIf="slideActive(3)">
       </ion-col>
     </ion-row>
   </ion-grid>
 
   <ion-slides #signupSlides  (ionSlideWillChange)="onSlideWillChange($event)">
     <ion-slide>
+      <form #phoneForm="ngForm" (ngSubmit)="onSubmitPhone(phoneForm)">
+        <ion-list>
+          <ion-item>
+            <ion-label>电话号码</ion-label>
+            <ion-input name="phone" type="number" placeholder="请输入您的手机号码" 
+            required pattern="^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,3,5-9]))\d{8}$"
+              (ionChange)="onPhoneChange()"
+              [(ngModel)]="signup.phone" #phone="ngModel">
+            </ion-input>
+            
+          </ion-item>
+            <ion-text class="ion-text-left" color="danger" *ngIf="phone.invalid && phone.touched">
+              <p [hidden]="!phone.errors?.required" class="padding-start">请输入手机号码</p>
+              <p [hidden]="!phone.errors?.pattern" class="padding-start">您输入的手机号格式不正确</p>
+            </ion-text>
+            <ion-text color="danger" *ngIf="phoneRegistered">
+              <p>该手机号已被注册</p>
+            </ion-text>
+          <ion-item>
+            
+            <div class="ion-padding-horizontal">
+              <ion-button type="submit" expand="full" color="primary" 
+              [disabled]="phoneForm.invalid">下一步</ion-button>
+              <ion-button  expand="full" color="primary" (click)="onNextClick()"
+              >直接下一步（测试用）</ion-button>
+            </div>
+          </ion-item>
+
+        </ion-list>
+      </form>
+    </ion-slide>
+
+    <ion-slide>
       <form>
         <ion-list>
           <ion-item>
-            <ion-label>11电话号码</ion-label>
-            <ion-input type="tel" placeholder="请输入电话号码"></ion-input>
+            <ion-input name="code" type="number" slot="start" placeholder="输入验证码"
+            [(ngModel)]="signup.code" #code="ngModel"></ion-input>
+            <ion-button color="primary" expand="full" slot="end" (click)="onSendSMS()" 
+            [disabled]="getCode.btnDisable">{{getCode.text}}</ion-button>
+          </ion-item>
+          <ion-item *ngIf="!getCode.valid">
+            <ion-text class="ion-text-left" color="danger" >
+              <p class="padding-start">验证码错误</p>
+            </ion-text>
           </ion-item>
           <ion-item>
-            <ion-button (click)="onNextClick()" expand="block" fill="clear" shape="round">
+            <ion-button expand="full"  color="primary" (click)="onCodeNext()">
               下一步
             </ion-button>
+          </ion-item>
+          <ion-item>
+            <ion-button  expand="full" color="primary" (click)="onPrevious()">
+              上一步
+            </ion-button>
+            <ion-button  expand="full" color="primary" (click)="onNextClick()"
+              >直接下一步（测试用）</ion-button>
           </ion-item>
         </ion-list>
       </form>
@@ -60,18 +107,55 @@
       <form>
         <ion-list>
           <ion-item>
-            <ion-label>22电话号码</ion-label>
-            <ion-input type="tel" placeholder="请输入电话号码"></ion-input>
+            <ion-input name="shopName" type="text" placeholder="请输入店铺的名称"
+            [(ngModel)]="signup.shopName" #shopName="ngModel"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-button (click)="onPreClick()" expand="block" fill="clear" shape="round">
-              上一步
-            </ion-button>
+            <ion-input name="email" type="string" 
+            placeholder="请输入您的电子邮箱" 
+            required pattern="([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})" 
+            [(ngModel)]="signup.email" 
+            #email="ngModel">
+            </ion-input>
           </ion-item>
+          <ion-text class="ion-text-left" color="danger" *ngIf="email.invalid && email.touched">
+            <p [hidden]="!email.errors?.required" class="padding-start">请输入电子邮箱</p>
+            <p [hidden]="!email.errors?.pattern" class="padding-start">您输入的电子邮箱格式不正确</p>
+          </ion-text>
           <ion-item>
-            <ion-button (click)="onNextClick()" expand="block" fill="clear" shape="round">
+            <ion-input name="password" type="password" 
+            placeholder="请输入登陆密码" 
+            required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{6,16}$" 
+            [(ngModel)]="signup.password" #password="ngModel">
+            </ion-input>
+          </ion-item>
+            <ion-text class="ion-text-left" color="danger" *ngIf="password.invalid && password.touched">
+              <p [hidden]="!password.errors?.required" class="padding-start">请输入登陆密码</p>
+              <p [hidden]="!password.errors?.pattern" class="padding-start">您输入的密码格式不正确</p>
+            </ion-text>
+          <ion-item>
+            <ion-input name="confirmPassword" type="password" 
+            placeholder="请输入确认密码" 
+            required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{6,16}$" 
+            [(ngModel)]="signup.confirmPassword"
+             #confirmPassword="ngModel">
+            </ion-input>
+          </ion-item>
+          <ion-text class="ion-text-left" color="danger" *ngIf="confirmPassword.invalid && confirmPassword.touched">
+            <p [hidden]="!confirmPassword.errors?.required" class="padding-start">请输入确认密码</p>
+            <p [hidden]="!confirmPassword.errors?.pattern" class="padding-start">您输入的密码格式不正确</p>
+          </ion-text>
+          <ion-item>
+            <ion-button expand="full"  color="primary" (click)="onSignupNext()">
               下一步
             </ion-button>
+          </ion-item>
+          <ion-item>
+            <ion-button  expand="full" color="primary" (click)="onPrevious()">
+              上一步
+            </ion-button>
+            <ion-button  expand="full" color="primary" (click)="onNextClick()"
+              >直接下一步（测试用）</ion-button>
           </ion-item>
         </ion-list>
       </form>
@@ -80,64 +164,11 @@
     <ion-slide>
       <form>
         <ion-list>
-          <ion-item>
-            <ion-label>33电话号码</ion-label>
-            <ion-input type="tel" placeholder="请输入电话号码"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-button (click)="onPreClick()" expand="block" fill="clear" shape="round">
-              上一步
-            </ion-button>
-          </ion-item>
-          <ion-item>
-            <ion-button (click)="onNextClick()" expand="block" fill="clear" shape="round">
-              下一步
-            </ion-button>
-          </ion-item>
-        </ion-list>
-      </form>
-    </ion-slide>
+          <h1>注册成功！！</h1>
 
-    <ion-slide>
-      <form>
-        <ion-list>
-          <ion-item>
-            <ion-label>44电话号码</ion-label>
-            <ion-input type="tel" placeholder="请输入电话号码"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-button (click)="onPreClick()" expand="block" fill="clear" shape="round">
-              上一步
-            </ion-button>
-          </ion-item>
-          <ion-item>
-            <ion-button (click)="onNextClick()" expand="block" fill="clear" shape="round">
-              下一步
-            </ion-button>
-          </ion-item>
         </ion-list>
       </form>
     </ion-slide>
 
   </ion-slides>
-  
-  
 </ion-content>
-
-<!-- 
-<ion-col>
-  <img src="assets/img/registered_one.png" alt="" *ngIf="slideIndex!==0">
-  <img src="assets/img/registered_one_one.png" alt="" *ngIf="slideIndex===0">
-</ion-col>
-<ion-col>
-  <img src="assets/img/registered_two.png" alt="" *ngIf="slideIndex!==0">
-  <img src="assets/img/registered_two_two.png" alt="" *ngIf="slideIndex===0">
-</ion-col>
-<ion-col>
-  <img src="assets/img/registered_three.png" alt="" *ngIf="slideIndex!==0">
-  <img src="assets/img/registered_three_three.png" alt="" *ngIf="slideIndex===0">
-</ion-col>
-<ion-col>
-  <img src="assets/img/register_four.png" alt="" *ngIf="slideIndex!==0">
-  <img src="assets/img/register_four_four.png" alt="" *ngIf="slideIndex===0">
-</ion-col> -->

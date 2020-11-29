@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-11-19 11:10:09
+ * @LastEditTime: 2020-11-29 19:30:09
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \syzj\src\app\shared\services\local-storage.service.ts
+ */
 import { Injectable } from '@angular/core';
 
 @Injectable({
