@@ -1,14 +1,15 @@
 <ion-header>
-  <!-- <ion-toolbar>
-    <ion-title>signup</ion-title>
-  </ion-toolbar> -->
-  <div class="ion-text-center">
-    <img class="logo" src="assets/img/logo.png" alt="">
-  </div>
-  
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="passport/login" text="返回"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <div class="ion-text-center">
+    <img class="logo" src="assets/img/logo.png" alt="">
+  </div>
   <ion-grid>
     <ion-row>
       <ion-col>
@@ -39,7 +40,7 @@
     </ion-row>
   </ion-grid>
 
-  <ion-slides #signupSlides  (ionSlideWillChange)="onSlideWillChange($event)">
+  <ion-slides #signupSlides  (ionSlideWillChange)="onSlideWillChange($event)" style="width: 100%;">
     <ion-slide>
       <form #phoneForm="ngForm" (ngSubmit)="onSubmitPhone(phoneForm)">
         <ion-list>
@@ -59,15 +60,11 @@
             <ion-text color="danger" *ngIf="phoneRegistered">
               <p>该手机号已被注册</p>
             </ion-text>
-          <ion-item>
             
             <div class="ion-padding-horizontal">
-              <ion-button type="submit" expand="full" color="primary" 
+              <ion-button type="submit" expand="full" color="primary"
               [disabled]="phoneForm.invalid">下一步</ion-button>
-              <ion-button  expand="full" color="primary" (click)="onNextClick()"
-              >直接下一步（测试用）</ion-button>
             </div>
-          </ion-item>
 
         </ion-list>
       </form>
@@ -87,18 +84,12 @@
               <p class="padding-start">验证码错误</p>
             </ion-text>
           </ion-item>
-          <ion-item>
             <ion-button expand="full"  color="primary" (click)="onCodeNext()">
               下一步
             </ion-button>
-          </ion-item>
-          <ion-item>
             <ion-button  expand="full" color="primary" (click)="onPrevious()">
               上一步
             </ion-button>
-            <ion-button  expand="full" color="primary" (click)="onNextClick()"
-              >直接下一步（测试用）</ion-button>
-          </ion-item>
         </ion-list>
       </form>
     </ion-slide>
@@ -145,30 +136,22 @@
             <p [hidden]="!confirmPassword.errors?.required" class="padding-start">请输入确认密码</p>
             <p [hidden]="!confirmPassword.errors?.pattern" class="padding-start">您输入的密码格式不正确</p>
           </ion-text>
-          <ion-item>
             <ion-button expand="full"  color="primary" (click)="onSignupNext()">
               下一步
             </ion-button>
-          </ion-item>
-          <ion-item>
             <ion-button  expand="full" color="primary" (click)="onPrevious()">
               上一步
             </ion-button>
-            <ion-button  expand="full" color="primary" (click)="onNextClick()"
-              >直接下一步（测试用）</ion-button>
-          </ion-item>
         </ion-list>
       </form>
     </ion-slide>
-
     <ion-slide>
       <form>
         <ion-list>
-          <h1>注册成功！！</h1>
-
+          <h1>注册成功！</h1>
         </ion-list>
       </form>
     </ion-slide>
-
   </ion-slides>
+  <ysj-copyright bottom="20px"></ysj-copyright>
 </ion-content>

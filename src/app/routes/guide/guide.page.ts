@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-11-19 11:10:09
+ * @LastEditTime: 2020-11-30 16:02:33
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \syzj\src\app\routes\guide\guide.page.ts
+ */
 import { LocalStorageService } from './../../shared/services/local-storage.service';
 import {Router} from '@angular/router';
 import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';

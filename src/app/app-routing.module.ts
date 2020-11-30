@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-11-19 11:10:09
- * @LastEditTime: 2020-11-29 21:55:29
+ * @LastEditTime: 2020-11-30 14:19:23
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \syzj\src\app\app-routing.module.ts
@@ -33,10 +33,6 @@ const routes: Routes = [
     path: 'passport',
     loadChildren: () => import('./routes/passport/passport.module').then( m => m.PassportModule)
   },
-  {
-    path: 'login',
-    component: LoginPage
-  }
 ];
 @NgModule({
   imports: [

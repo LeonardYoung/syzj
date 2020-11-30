@@ -16,7 +16,7 @@
  */
 import { AuthenticationCodeService } from './../services/authentication-code.service';
 import { SignupVO, GetCodeVO , UserVO, LoginAccountVO} from './signup-vo';
-import { IonSlides } from '@ionic/angular';
+import { AlertController, IonSlides } from '@ionic/angular';
 import { Component, OnInit, ViewChild, NgModule } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -50,7 +50,8 @@ export class SignupPage implements OnInit{
     count: 0,
     countMax: 60,
   };
-  constructor( private codeService: AuthenticationCodeService, private passportService: PassportServiceService) {}
+  constructor( private codeService: AuthenticationCodeService, private passportService: PassportServiceService,
+    private alertController: AlertController) {}
   @ViewChild('signupSlides', {static: true}) signupSlides: IonSlides;
   @ViewChild('phoneForm') phoneForm: NgForm;
   @ViewChild('phone') phone: NgModule;
@@ -127,7 +128,7 @@ export class SignupPage implements OnInit{
       this.onNext();
     }
     else {
-      console.log('手机号已被注册');
+      // console.log('手机号已被注册');
       this.phoneRegistered = true;
     }
   }
@@ -135,8 +136,8 @@ export class SignupPage implements OnInit{
    * @description: 监听发送验证码按钮
    */
   onSendSMS(){
-    // 生成验证码
-    this.codeService.createCode(1);
+    // 生成4位验证码
+    this.codeService.createCode(4);
 
     // 使按钮不可用
     this.getCode.btnDisable = true;
@@ -172,32 +173,20 @@ export class SignupPage implements OnInit{
    */
   onSignupNext(){
     if (this.checkConfirmPassord()){
-      // this.localStorageService.get('1');
-      const newId = this.passportService.getNewUserId();
-      const user: UserVO = {
-        id: newId,
-        phone: this.signup.phone,
-        email: this.signup.email,
-        createTime: new Date(),
-        shopName: this.signup.shopName,
-      };
-      const accountPhone: LoginAccountVO = {
-        userid: newId,
-        identifier: this.signup.phone,
-        credential: this.signup.password,
-      };
-      const accountEmail: LoginAccountVO = {
-        userid: newId,
-        identifier: this.signup.email,
-        credential: this.signup.password,
-      };
-      // 添加用户模型
-      this.passportService.addUser(user);
-      // 分别为手机号和邮箱添加登录模型
-      this.passportService.addLoginAccount(accountEmail);
-      this.passportService.addLoginAccount(accountPhone);
-      // 下一页
-      this.onNext();
+      this.passportService.signup(this.signup).then( result => {
+        console.log('成功', result);
+        // 下一页
+        this.onNext();
+      }).catch( err => {
+        console.log('失败', err);
+        this.alertController.create({
+          header: '错误',
+          buttons: ['确定']
+        }).then( alert => {
+          alert.message = err.error.message;
+          alert.present();
+        });
+      });
     }
   }
 

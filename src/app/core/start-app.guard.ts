@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-11-21 20:47:22
+ * @LastEditTime: 2020-11-30 16:05:41
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \syzj\src\app\core\start-app.guard.ts
+ */
 import { APP_KEY } from './../routes/guide/guide.page';
 import { LocalStorageService } from './../shared/services/local-storage.service';
 import { Injectable } from '@angular/core';
@@ -24,7 +32,7 @@ export class StartAppGuard implements CanActivate {
         this.LocalStorage.set(APP_KEY, appConfig);
         return true;
       }else{
-        this.router.navigateByUrl('home/tabs/home');
+        this.router.navigateByUrl('home');
         return false;
       }
   }

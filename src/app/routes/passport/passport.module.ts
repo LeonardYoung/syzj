@@ -5,17 +5,19 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { PassportRoutingModule } from './passport-routing.module';
+import { ForgotPasswordPage } from './forgot-password/forgot-password.page';
 
 
 @NgModule({
   declarations: [
     SignupPage,
-    LoginPage
+    LoginPage,
+    ForgotPasswordPage
   ],
   imports: [
     CommonModule,
     PassportRoutingModule,
-    SharedModule
+    SharedModule,
   ]
 })
 export class PassportModule { }

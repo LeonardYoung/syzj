@@ -47,6 +47,7 @@ export interface LoginAccountVO {
  */
 export interface LoginInfo {
     userid: number;
+    phoneOrEmail: string;
     loginTime: number;
     expirationTime: number;
 }
