@@ -17,7 +17,7 @@
 import { AuthenticationCodeService } from './../services/authentication-code.service';
 import { SignupVO, GetCodeVO , UserVO, LoginAccountVO} from './signup-vo';
 import { IonSlides } from '@ionic/angular';
-import { Component, OnInit, ViewChild, NgModule, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, NgModule } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { PassportServiceService } from './../services/passport-service.service';
@@ -122,7 +122,6 @@ export class SignupPage implements OnInit{
    * @param phoneForm 表单
    */
   onSubmitPhone(phoneForm: NgForm){
-    console.log(phoneForm.form.value);
     if (this.passportService.isUniquePhone(this.signup.phone)){
       this.phoneRegistered = false;
       this.onNext();

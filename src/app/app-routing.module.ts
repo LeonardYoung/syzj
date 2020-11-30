@@ -1,7 +1,17 @@
+/*
+ * @Author: your name
+ * @Date: 2020-11-19 11:10:09
+ * @LastEditTime: 2020-11-29 21:55:29
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \syzj\src\app\app-routing.module.ts
+ */
 import { StartAppGuard } from './core/start-app.guard';
 import { TabsPage } from './tabs/tabs.page';
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { LoginPage } from './routes/passport/login/login.page';
+
 
 const routes: Routes = [
   {
@@ -22,6 +32,10 @@ const routes: Routes = [
   {
     path: 'passport',
     loadChildren: () => import('./routes/passport/passport.module').then( m => m.PassportModule)
+  },
+  {
+    path: 'login',
+    component: LoginPage
   }
 ];
 @NgModule({

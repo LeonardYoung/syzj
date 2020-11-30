@@ -1,4 +1,12 @@
-import { FormsModule } from '@angular/forms';
+/*
+ * @Author: your name
+ * @Date: 2020-11-19 11:10:09
+ * @LastEditTime: 2020-11-29 22:11:03
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \syzj\src\app\app.module.ts
+ */
+import { FormsModule, NgForm } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
