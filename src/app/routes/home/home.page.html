@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>home</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col *ngFor="let s of sales">
+        <h6>{{s.title}}</h6>
+        <h4><span>{{s.current | number:'1.2-2'}}元</span></h4>
+        <p>
+          {{s.content}}
+          <span [ngClass]="{'less-equal': s.current - s.previous <= 0,'greater': s.current - s.previous > 0}">
+            {{s.current - s.previous | number:'1.2-2'}}
+          </span>&nbsp;
+          <!-- <ion-icon name="arrow-round-up"></ion-icon> -->
+          <ng-container [ngSwitch]="minus(s.current, s.previous)">
+            <ion-icon name="arrow-up" color="danger" *ngSwitchCase="1"></ion-icon>
+            <ion-icon name="arrow-forward" color="success" *ngSwitchCase="0"></ion-icon>
+            <ion-icon name="arrow-down" color="success" *ngSwitchCase="-1"></ion-icon>
+          </ng-container>
+        </p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

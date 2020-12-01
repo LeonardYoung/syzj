@@ -67,6 +67,7 @@ export class PassportServiceService {
   /**
    * @description: 保存登录日志
    * @param  id 用户id
+   * @param  pm 用户名或者邮箱
    * @param  overDay 记住登录状态的超时时间（天）
    */
   saveLoginInfo(id: number, pm: string, overDay: number){

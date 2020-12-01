@@ -20,7 +20,7 @@ const routes: Routes = [
     // loadChildren: () => import('./pages/pages/welcome/welcome.module').then( m => m.WelcomePageModule)
   },
   {
-    path: 'home',
+    path: 'tabs',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
 
@@ -32,7 +32,7 @@ const routes: Routes = [
   {
     path: 'passport',
     loadChildren: () => import('./routes/passport/passport.module').then( m => m.PassportModule)
-  },
+  }
 ];
 @NgModule({
   imports: [

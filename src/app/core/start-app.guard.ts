@@ -32,7 +32,7 @@ export class StartAppGuard implements CanActivate {
         this.LocalStorage.set(APP_KEY, appConfig);
         return true;
       }else{
-        this.router.navigateByUrl('home');
+        this.router.navigateByUrl('tabs/home');
         return false;
       }
   }
