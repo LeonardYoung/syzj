@@ -25,7 +25,7 @@ import { MePage } from './me.page';
   declarations: [
     MePage,
     ShopPage,
-    SettingPage
+    // SettingPage
   ]
 })
 export class MePageModule {}

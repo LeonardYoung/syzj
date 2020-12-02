@@ -26,20 +26,11 @@ export class LoginPage implements OnInit, AfterViewInit {
   }
 
   /**
-   * @description 视图加载完成后进行自动登录判断，
+   * @description 视图加载完成后进行自动填充上次登录的用户名，
    *
    */
   ngAfterViewInit(){
-    // debugger;
-    if (this.passportService.autoLogin()){
-      console.log('自动登录');
-      this.router.navigateByUrl('home');
-    }
-    else {
-      // 显示上一次登录的用户名
-      this.username = this.passportService.getLastLoginName();
-      console.log(this.username)
-    }
+    this.username = this.passportService.getLastLoginName();
   }
 
   /**
@@ -65,7 +56,7 @@ export class LoginPage implements OnInit, AfterViewInit {
     // 登录校验
     this.passportService.login(this.username, this.password).then( result => {
       console.log('登录成功');
-      this.router.navigateByUrl('home');
+      this.router.navigateByUrl('tabs/home');
     }).catch( err => {
       // console.log('err=', err);
       this.alertController.create({

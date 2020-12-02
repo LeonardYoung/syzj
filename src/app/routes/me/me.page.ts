@@ -1,4 +1,7 @@
+import { CURRENT_USER_KEY } from './../passport/services/passport-service.service';
+import { UserVO } from './../../shared/interface/user';
 import { Component, OnInit } from '@angular/core';
+import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 
 @Component({
   selector: 'app-me',
@@ -7,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MePage implements OnInit {
 
-  constructor() { }
+  constructor(private localStorage: LocalStorageService) { }
   public appPages = [
     { title: '开店论坛', url: '/home', icon: 'people' },
     { title: '手机橱窗', url: '/home', icon: 'call' },
@@ -16,8 +19,11 @@ export class MePage implements OnInit {
     { title: '反馈建议', url: '/home', icon: 'mail' },
     { title: '帮助中心', url: '/home', icon: 'help' },
   ];
+  private currentUser: UserVO;
 
   ngOnInit() {
+    this.currentUser = this.localStorage.get(CURRENT_USER_KEY, null);
+    // console.log(this.currentUser);
   }
 
 }

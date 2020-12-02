@@ -1,3 +1,4 @@
+import { GetSalesService } from './services/get-sales.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,39 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomePage implements OnInit {
 
-  public sales = [
-    {
-      title: 'title1',
-      current: 100,
-      previous: 111,
-      number: 99,
-      content: '比昨日',
-    },
-    {
-      title: 'title2',
-      current: 100,
-      previous: 2,
-      number: 99,
-      content: '比昨日',
-    },
-    {
-      title: 'title1',
-      current: 100,
-      previous: 111,
-      number: 99,
-      content: '比昨日',
-    },
-    {
-      title: 'title2',
-      current: 100,
-      previous: 100,
-      number: 99,
-      content: '比昨日',
-    },
-  ]
-  constructor() { }
+  private sales: any;
+  constructor(private getSaleService: GetSalesService) { }
 
   ngOnInit() {
+    this.sales = this.getSaleService.getSales();
   }
   /**
    *

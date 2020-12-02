@@ -1,20 +1,14 @@
-/*
- * @Author: your name
- * @Date: 2020-11-29 16:23:33
- * @LastEditTime: 2020-11-30 15:52:53
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \syzj\src\app\routes\passport\services\passport-service.service.ts
- */
 import { Injectable } from '@angular/core';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
-import { UserVO, LoginAccountVO, SignupVO, LoginInfo} from './../signup/signup-vo';
+import { LoginAccount, SignupVO, LoginInfo } from './../signup/signup-vo';
+import { UserVO } from './../../../shared/interface/user';
 import { AjaxResult } from './../../../shared/interface/ajax-result';
 
 const USER_KEY = 'Users';
 const ACCOUNT_KEY = 'Accounts';
 const USER_ID_MAX_KEY = 'UserIdMax';
 const LOGIN_INFO_KEY = 'LoginInfo';
+export const CURRENT_USER_KEY = 'CUser';
 
 @Injectable({
   providedIn: 'root'
@@ -30,11 +24,13 @@ export class PassportServiceService {
     this.loginInfo = this.localStorage.get(LOGIN_INFO_KEY, {
       expirationTime: 0
     });
+    this.currentUser = this.localStorage.get(CURRENT_USER_KEY, null);
   }
   private users: UserVO[] = [];
-  private accounts: LoginAccountVO[] = [];
+  private accounts: LoginAccount[] = [];
   private userIdMax: number;
   private loginInfo: LoginInfo;
+  private currentUser: UserVO;
 
   /**
    * @description: 获取一个新用户id
@@ -59,7 +55,7 @@ export class PassportServiceService {
    * @description: 增加一个账户
    * @param account 账户
    */
-  addLoginAccount(account: LoginAccountVO){
+  addLoginAccount(account: LoginAccount){
     this.accounts.push(account);
     this.localStorage.set(ACCOUNT_KEY, this.accounts);
     // console.log(this.accounts);
@@ -104,6 +100,23 @@ export class PassportServiceService {
   getLastLoginName(): string{
     return this.loginInfo.phoneOrEmail;
   }
+
+  /**
+   *
+   * @description 根据id保存当前用户信息
+   * @param usrId id
+   */
+  saveCurrentUser(usrId: number){
+    for ( const user of this.users){
+      if ( user.id === usrId){
+        this.currentUser = user;
+        this.localStorage.set(CURRENT_USER_KEY, this.currentUser);
+      }
+    }
+  }
+  getCurrentUser(): UserVO{
+    return this.currentUser;
+  }
   /**
    *
    * @param phoneOrEmail 手机号或者邮箱
@@ -120,6 +133,7 @@ export class PassportServiceService {
           if (user.credential == password) {
             // 过期时间设为5天
             this.saveLoginInfo(user.userid, phoneOrEmail, 5);
+            this.saveCurrentUser(user.userid);
             resolve(res);
             return;
           }
@@ -160,12 +174,12 @@ export class PassportServiceService {
         createTime: new Date(),
         shopName: input.shopName,
       };
-      const accountPhone: LoginAccountVO = {
+      const accountPhone: LoginAccount = {
         userid: newId,
         identifier: input.phone,
         credential: input.password,
       };
-      const accountEmail: LoginAccountVO = {
+      const accountEmail: LoginAccount = {
         userid: newId,
         identifier: input.email,
         credential: input.password,

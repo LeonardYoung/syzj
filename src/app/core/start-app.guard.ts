@@ -1,11 +1,4 @@
-/*
- * @Author: your name
- * @Date: 2020-11-21 20:47:22
- * @LastEditTime: 2020-11-30 16:05:41
- * @LastEditors: your name
- * @Description: In User Settings Edit
- * @FilePath: \syzj\src\app\core\start-app.guard.ts
- */
+import { PassportServiceService } from './../routes/passport/services/passport-service.service';
 import { APP_KEY } from './../routes/guide/guide.page';
 import { LocalStorageService } from './../shared/services/local-storage.service';
 import { Injectable } from '@angular/core';
@@ -17,7 +10,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class StartAppGuard implements CanActivate {
-  constructor(private LocalStorage: LocalStorageService, private router: Router){}
+  constructor(private LocalStorage: LocalStorageService, private router: Router, private passportServics: PassportServiceService){}
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): boolean {
@@ -31,8 +24,12 @@ export class StartAppGuard implements CanActivate {
         appConfig.launched = true;
         this.LocalStorage.set(APP_KEY, appConfig);
         return true;
-      }else{
+      }
+      else if (this.passportServics.autoLogin()){
         this.router.navigateByUrl('tabs/home');
+      }
+      else{
+        this.router.navigateByUrl('passport/login');
         return false;
       }
   }
