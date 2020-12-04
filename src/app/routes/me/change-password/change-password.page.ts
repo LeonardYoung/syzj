@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+// import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -10,10 +10,14 @@ import { NgForm } from '@angular/forms';
 export class ChangePasswordPage implements OnInit {
 
   newPassword = '';
-  @ViewChild('form') form: NgForm;
+  repeatPassword = '';
+  // @ViewChild('form') form: NgForm;
   constructor() { }
 
   ngOnInit() {
+  }
+  onChange(){
+    console.log('on change');
   }
 
 }

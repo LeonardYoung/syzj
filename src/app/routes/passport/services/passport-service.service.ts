@@ -1,14 +1,12 @@
+import { CurrentUserInfoService } from './../../../shared/services/current-user-info.service';
 import { Injectable } from '@angular/core';
-import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
+import { LocalStorageService, USER_KEY, ACCOUNT_KEY, USER_ID_MAX_KEY, LOGIN_INFO_KEY, CURRENT_USER_KEY } from 'src/app/shared/services/local-storage.service';
 import { LoginAccount, SignupVO, LoginInfo } from './../signup/signup-vo';
 import { UserVO } from './../../../shared/interface/user';
 import { AjaxResult } from './../../../shared/interface/ajax-result';
 
-const USER_KEY = 'Users';
-const ACCOUNT_KEY = 'Accounts';
-const USER_ID_MAX_KEY = 'UserIdMax';
-const LOGIN_INFO_KEY = 'LoginInfo';
-export const CURRENT_USER_KEY = 'CUser';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -17,20 +15,21 @@ export class PassportServiceService {
   /**
    * @description: 构造函数，从本地读出数据
    */
-  constructor(private localStorage: LocalStorageService) {
+  constructor(private localStorage: LocalStorageService, private curUserService: CurrentUserInfoService) {
     this.users = this.localStorage.get(USER_KEY, []);
     this.accounts = this.localStorage.get(ACCOUNT_KEY, []);
-    this.userIdMax = this.localStorage.get(USER_ID_MAX_KEY, 0);
+    this.userIdMax = this.localStorage.get(USER_ID_MAX_KEY, 1);
     this.loginInfo = this.localStorage.get(LOGIN_INFO_KEY, {
       expirationTime: 0
     });
     this.currentUser = this.localStorage.get(CURRENT_USER_KEY, null);
   }
+  private currentUser: UserVO;
   private users: UserVO[] = [];
   private accounts: LoginAccount[] = [];
   private userIdMax: number;
+
   private loginInfo: LoginInfo;
-  private currentUser: UserVO;
 
   /**
    * @description: 获取一个新用户id
@@ -83,9 +82,13 @@ export class PassportServiceService {
    * @return 可以登录返回true
    */
   autoLogin(): boolean{
-    if(this.loginInfo === null){
+    if (this.loginInfo === null){
       return false;
     }
+    // // 重新读取，确保主动退出时不再自动登录
+    // this.loginInfo = this.localStorage.get(LOGIN_INFO_KEY, {
+    //   expirationTime: 0
+    // });
     // console.log(this.loginInfo.expirationTime,'  ', Date.now().valueOf())
     if (this.loginInfo.expirationTime > Date.now().valueOf()){
       this.saveLoginInfo(this.loginInfo.userid, this.loginInfo.phoneOrEmail, 5);
@@ -93,29 +96,70 @@ export class PassportServiceService {
     }
     return false;
   }
+
+  /**
+   * @description 退出
+   *
+   */
+  logOut() {
+    this.loginInfo = null;
+    this.localStorage.remove(LOGIN_INFO_KEY)
+  }
   /**
    * @description 获取上一次登录的用户名
    * @return 用户名或者邮箱
    */
   getLastLoginName(): string{
+    if (this.loginInfo === null){
+      return '';
+    }
     return this.loginInfo.phoneOrEmail;
   }
 
   /**
    *
-   * @description 根据id保存当前用户信息
-   * @param usrId id
+   * @description 根据id保存当前用户信息，登录时调用
+   * @param usr 当前用户信息
    */
   saveCurrentUser(usrId: number){
     for ( const user of this.users){
       if ( user.id === usrId){
         this.currentUser = user;
         this.localStorage.set(CURRENT_USER_KEY, this.currentUser);
+        break;
       }
     }
   }
+
+  /**
+   * @description  获取当前登录的用户信息
+   * @return   当前登录的用户信息
+   */
   getCurrentUser(): UserVO{
     return this.currentUser;
+  }
+
+  /**
+   * @description  修改当前登录的用户信息
+   * @param  property 属性
+   * @param  value 名称
+   */
+  editCurrentUserProperty(property: string, value: string){
+    // if ( property in this.currentUser){
+    this.currentUser[property] = value;
+    this.localStorage.set(CURRENT_USER_KEY, this.currentUser);
+    // 从用户表中找到该用户，更改属性
+    for (const usr of this.users){
+      if (usr.id === this.currentUser.id){
+        usr[property] = value;
+        this.localStorage.set(USER_KEY, this.users);
+        break;
+      }
+      }
+    // }
+    // else {
+    //   throw new Error('no such property');
+    // }
   }
   /**
    *
@@ -155,6 +199,24 @@ export class PassportServiceService {
       return;
     });
   }
+  /**
+   * @description 格式化时间
+   * @param date 时间对象
+   */
+　formatDateTime(date: Date): string {
+    const y = date.getFullYear();
+    const m = date.getMonth() + 1;
+    const mString = m < 10 ? ('0' + m) : m;
+    const d = date.getDate();
+    const dString = d < 10 ? ('0' + d) : d;
+    const h = date.getHours();
+    const hString = h < 10 ? ('0' + h) : h;
+    const minute = date.getMinutes();
+    const minuteString = minute < 10 ? ('0' + minute) : minute;
+    const second = date.getSeconds();
+    const secondString = second < 10 ? ('0' + second) : second;
+    return y + '-' + mString + '-' + dString + ' ' + hString + ':' + minuteString + ':' + secondString;
+　}
 
   /**
    * @description 注册入口，注册一个新用户
@@ -171,7 +233,7 @@ export class PassportServiceService {
         id: newId,
         phone: input.phone,
         email: input.email,
-        createTime: new Date(),
+        createTime: this.formatDateTime(new Date()),
         shopName: input.shopName,
       };
       const accountPhone: LoginAccount = {

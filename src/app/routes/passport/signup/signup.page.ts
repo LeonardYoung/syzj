@@ -1,27 +1,11 @@
-/*
- * @Author: your name
- * @Date: 2020-11-24 15:27:12
- * @LastEditTime: 2020-11-29 20:43:50
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \syzj\src\app\routes\passport\signup\signup.page.ts
- */
-/*
- * @Author: your name
- * @Date: 2020-11-24 15:27:12
- * @LastEditTime: 2020-11-29 15:33:20
- * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: \syzj\src\app\routes\passport\signup\signup.page.ts
- */
+// import { UserVO } from './../../../shared/interface/user';
 import { AuthenticationCodeService } from './../services/authentication-code.service';
-import { SignupVO, GetCodeVO , UserVO, LoginAccountVO} from './signup-vo';
+import { SignupVO, GetCodeVO } from './signup-vo';
 import { AlertController, IonSlides } from '@ionic/angular';
 import { Component, OnInit, ViewChild, NgModule } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { PassportServiceService } from './../services/passport-service.service';
-
 
 
 

@@ -7,7 +7,7 @@ import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator, ValidatorF
 //   }
 // }
 
-export function confirmValidator(confirm: string): ValidatorFn {
+function confirmValidator(confirm: string): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} => { // 传入绑定表单的formControl
     if ( !control.value ) { // 如果绑定未输入值，则返回 required错误
      return {required: true };
@@ -18,7 +18,7 @@ export function confirmValidator(confirm: string): ValidatorFn {
 }
 
 @Directive({
-  selector: '[appConfirm]',
+  selector: '[ysjConfirm]',
   providers: [
     {
       provide: NG_VALIDATORS,
@@ -28,7 +28,7 @@ export function confirmValidator(confirm: string): ValidatorFn {
   ]
 })
 export class ConfirmDirective implements Validator{
-  @Input('appConfirm') confirmValue: string;
+  @Input('ysjConfirm') confirmValue: string;
   constructor() { }
   validate(control: AbstractControl): ValidationErrors{
     return this.confirmValue ? confirmValidator(this.confirmValue)(control) : null;

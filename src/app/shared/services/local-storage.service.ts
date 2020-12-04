@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
 
+export const USER_KEY = 'Users';
+export const ACCOUNT_KEY = 'Accounts';
+export const USER_ID_MAX_KEY = 'UserIdMax';
+export const LOGIN_INFO_KEY = 'LoginInfo';
+export const CURRENT_USER_KEY = 'CUser';
+
 @Injectable({
   providedIn: 'root'
 })

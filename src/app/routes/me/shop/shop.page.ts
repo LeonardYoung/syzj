@@ -1,3 +1,4 @@
+import { UserVO } from './../../../shared/interface/user';
 import { SettingService } from './../setting/services/setting.service';
 import { Component, OnInit } from '@angular/core';
 
@@ -8,13 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ShopPage implements OnInit {
 
-  constructor(private settingService: SettingService) { }
+  constructor(private setingService: SettingService) { }
+  private currentUser: UserVO;
 
   ngOnInit() {
-  }
-
-  get user(): any{
-    return this.settingService.user;
+    this.currentUser = this.setingService.getUser();
   }
 
 }

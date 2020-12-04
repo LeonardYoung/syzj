@@ -15,6 +15,6 @@ import { ShopEditPage } from './shop-edit.page';
     IonicModule,
     ShopEditPageRoutingModule
   ],
-  declarations: [ShopEditPage]
+  declarations: []
 })
 export class ShopEditPageModule {}

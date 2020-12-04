@@ -1,3 +1,5 @@
+import { ChangePasswordPage } from './change-password/change-password.page';
+import { ShopEditPage } from './shop/shop-edit/shop-edit.page';
 import { SharedModule } from './../../shared/shared.module';
 import { SettingPage } from './setting/setting.page';
 import { ShopPage } from './shop/shop.page';
@@ -25,6 +27,8 @@ import { MePage } from './me.page';
   declarations: [
     MePage,
     ShopPage,
+    ShopEditPage,
+    ChangePasswordPage
     // SettingPage
   ]
 })

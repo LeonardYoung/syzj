@@ -80,8 +80,23 @@
   --ion-color-light-contrast-rgb: 0, 0, 0;
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
-}
 
+  /** 自定义 **/
+  --ion-color-ysj: #229713;
+  --ion-color-ysj-rgb: 255,106,60;
+  --ion-color-ysj-contrast: #ffffff;
+  --ion-color-ysj-contrast-rgb: 255,255,255;
+  --ion-color-ysj-shade: #1de45f;
+  --ion-color-ysj-tint: #0cb83f;
+}
+.ion-color-ysj{
+  --ion-color-base: var(--ion-color-ysj);
+  --ion-color-base-rgb: var(--ion-color-ysj-rgb);
+  --ion-color-contrast: var(--ion-color-ysj-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-ysj-contrast-rgb);
+  --ion-color-shade: var(--ion-color-ysj-shade);
+  --ion-color-tint: var(--ion-color-ysj-tint);
+}
 @media (prefers-color-scheme: dark) {
   /*
    * Dark Colors
