@@ -26,5 +26,23 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+
+  <ion-grid fixed>
+    <!-- <ion-row>
+      <ion-col size="6"></ion-col>
+      <ion-col size="6"></ion-col>
+    </ion-row> -->
+    <ion-row class="grid">
+      <ion-col size="3" *ngFor="let item of homeItems" >
+        <div class="grid-item">
+          <ion-icon size="large" [src]="item.icon"></ion-icon>
+          <div>{{item.title}}</div> 
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  
+
   <ysj-copyright bottom="20px"></ysj-copyright>
 </ion-content>
