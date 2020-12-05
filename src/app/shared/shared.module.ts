@@ -5,13 +5,15 @@ import { LocalStorageService } from './services/local-storage.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ConfirmDirective } from './directives/confirm.directive';
+import { PhoneValidatorDirective } from './directives/phone-validator.directive';
 
 
 
 @NgModule({
   declarations: [
     CopyrightComponent,
-    ConfirmDirective
+    ConfirmDirective,
+    PhoneValidatorDirective
   ],
   imports: [
     CommonModule,
@@ -26,7 +28,8 @@ import { ConfirmDirective } from './directives/confirm.directive';
     FormsModule,
     IonicModule,
     CopyrightComponent,
-    ConfirmDirective
+    ConfirmDirective,
+    PhoneValidatorDirective
   ]
 })
 export class SharedModule { }

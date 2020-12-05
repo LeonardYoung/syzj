@@ -47,15 +47,16 @@
           <ion-item>
             <ion-label>电话号码</ion-label>
             <ion-input name="phone" type="number" placeholder="请输入您的手机号码" 
-            required pattern="^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,3,5-9]))\d{8}$"
+            ysjPhoneValidator
               (ionChange)="onPhoneChange()"
               [(ngModel)]="signup.phone" #phone="ngModel">
             </ion-input>
             
           </ion-item>
             <ion-text class="ion-text-left" color="danger" *ngIf="phone.invalid && phone.touched">
+              <!-- <p [hidden]="!phone.errors?.confirm" class="padding-start">comfirm</p> -->
               <p [hidden]="!phone.errors?.required" class="padding-start">请输入手机号码</p>
-              <p [hidden]="!phone.errors?.pattern" class="padding-start">您输入的手机号格式不正确</p>
+              <p [hidden]="!phone.errors?.valid" class="padding-start">您输入的手机号格式不正确</p>
             </ion-text>
             <ion-text color="danger" *ngIf="phoneRegistered">
               <p>该手机号已被注册</p>
@@ -63,7 +64,7 @@
             
             <div class="ion-padding-horizontal">
               <ion-button type="submit" expand="full" color="primary"
-              [disabled]="phoneForm.invalid">下一步</ion-button>
+              [disabled]="phone.invalid">下一步</ion-button>
             </div>
 
         </ion-list>

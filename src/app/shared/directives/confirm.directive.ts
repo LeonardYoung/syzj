@@ -1,12 +1,6 @@
 import { Directive, Input } from '@angular/core';
 import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator, ValidatorFn } from '@angular/forms';
 
-// export function confirmValidator(confirm: string): ValidatorFn{
-//   return (control: AbstractControl): ValidationErrors | null {
-//     if ()
-//   }
-// }
-
 function confirmValidator(confirm: string): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} => { // 传入绑定表单的formControl
     if ( !control.value ) { // 如果绑定未输入值，则返回 required错误
