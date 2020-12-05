@@ -155,11 +155,7 @@ export class PassportServiceService {
         this.localStorage.set(USER_KEY, this.users);
         break;
       }
-      }
-    // }
-    // else {
-    //   throw new Error('no such property');
-    // }
+    }
   }
   /**
    *
@@ -198,6 +194,21 @@ export class PassportServiceService {
       reject(res);
       return;
     });
+  }
+
+  /**
+   *
+   * @description 更改密码
+   * @param newPassword 新密码
+   */
+  changePassword(newPassword: string){
+    const usrId = this.currentUser.id;
+    for ( const usr of this.accounts){
+      if ( usr.userid === usrId){
+        usr.credential = newPassword;
+      }
+    }
+    this.localStorage.set(ACCOUNT_KEY, this.accounts);
   }
   /**
    * @description 格式化时间

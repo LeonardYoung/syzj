@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { PassportServiceService } from 'src/app/routes/passport/services/passport-service.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 // import { NgForm } from '@angular/forms';
 
@@ -12,12 +14,13 @@ export class ChangePasswordPage implements OnInit {
   newPassword = '';
   repeatPassword = '';
   // @ViewChild('form') form: NgForm;
-  constructor() { }
+  constructor(private passportService: PassportServiceService, private router: Router) { }
 
   ngOnInit() {
   }
   onChange(){
-    console.log('on change');
+    this.passportService.changePassword(this.newPassword);
+    this.router.navigateByUrl('tabs/me/setting');
   }
 
 }
