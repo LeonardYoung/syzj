@@ -6,6 +6,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ConfirmDirective } from './directives/confirm.directive';
 import { PhoneValidatorDirective } from './directives/phone-validator.directive';
+import { PasswordValidtorDirective } from './directives/password-validtor.directive';
 
 
 
@@ -13,7 +14,8 @@ import { PhoneValidatorDirective } from './directives/phone-validator.directive'
   declarations: [
     CopyrightComponent,
     ConfirmDirective,
-    PhoneValidatorDirective
+    PhoneValidatorDirective,
+    PasswordValidtorDirective
   ],
   imports: [
     CommonModule,
@@ -29,7 +31,8 @@ import { PhoneValidatorDirective } from './directives/phone-validator.directive'
     IonicModule,
     CopyrightComponent,
     ConfirmDirective,
-    PhoneValidatorDirective
+    PhoneValidatorDirective,
+    PasswordValidtorDirective
   ]
 })
 export class SharedModule { }
