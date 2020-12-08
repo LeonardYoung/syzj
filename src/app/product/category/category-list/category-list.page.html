@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>categoryList</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="ion-no-padding">
+    <ion-row class="ion-no-padding ion-align-items-stretch">
+      <ion-col size="5" class="ion-no-padding" left>
+        <ion-item lines="full" color="light">
+          <ion-label>大分类</ion-label>
+        </ion-item>
+        <ion-item *ngFor="let item of categories" lines="full" [color]="getItemColor(item.id)"
+          (click)="onSelectCategory(item.id)" [ngClass]="{'item-active': item.id===activeCategory.id}">
+          <ion-label>{{item.name}}</ion-label>
+        </ion-item>
+      </ion-col>
+      <ion-col size="7" class="ion-no-padding">
+        <ion-item lines="full" color="">
+          <ion-label>小分类</ion-label>
+        </ion-item>
+        <ion-item lines="full" color="">
+          <ion-label>无小分类进入大分类</ion-label>
+        </ion-item>
+        <ion-item *ngFor="let item of activeCategory.children" (click)="onSelectSubCategory(item.id)" detail>
+          <ion-label>{{item.name}}</ion-label>
+        </ion-item>
+
+        <ion-item lines="none">
+
+          <!-- <ion-icon slot="start" name="add">新增小分类</ion-icon> -->
+          <!-- <ion-icon name="add-outline"></ion-icon> -->
+          <ion-icon name="add-circle-outline"></ion-icon>
+          <ion-label color="ysj">新增小分类</ion-label>
+        </ion-item>
+
+
+        <ion-list class="ysj-footer" lines="none" no-margin>
+          <ion-item lines="full">
+          </ion-item>
+          <ion-item lines="none">
+            <ion-label>共{{activeCategory.children.length}}种商品分类</ion-label>
+            <ion-button (click)="onPresentActionSheet()" expand="block" fill="clear" shape="round">
+              <!-- <ion-icon name="ellipsis-horizontal-outline"></ion-icon> -->
+              <ion-icon name="ellipsis-horizontal"></ion-icon>
+              <!-- ... -->
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

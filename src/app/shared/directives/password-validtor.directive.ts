@@ -14,7 +14,7 @@ function passwordValidator(): ValidatorFn {
 }
 
 @Directive({
-  selector: '[appPasswordValidtor]',
+  selector: '[ysjPasswordValidtor]',
   providers: [
     {
       provide: NG_VALIDATORS,

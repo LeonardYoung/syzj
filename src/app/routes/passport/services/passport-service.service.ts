@@ -1,3 +1,4 @@
+// import { LOGIN_INFO_KEY } from './../../../shared/services/local-storage.service';
 import { CurrentUserInfoService } from './../../../shared/services/current-user-info.service';
 import { Injectable } from '@angular/core';
 import { LocalStorageService, USER_KEY, ACCOUNT_KEY, USER_ID_MAX_KEY, LOGIN_INFO_KEY, CURRENT_USER_KEY } from 'src/app/shared/services/local-storage.service';
@@ -102,8 +103,8 @@ export class PassportServiceService {
    *
    */
   logOut() {
-    this.loginInfo = null;
-    this.localStorage.remove(LOGIN_INFO_KEY)
+    this.loginInfo.expirationTime = 0;
+    this.localStorage.set(LOGIN_INFO_KEY, this.loginInfo);
   }
   /**
    * @description 获取上一次登录的用户名
