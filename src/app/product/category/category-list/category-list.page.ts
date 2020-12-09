@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Category } from './../../../shared/interface/category';
 import { Component, OnInit } from '@angular/core';
 import { CategoryService } from '../category.service';
@@ -12,23 +13,25 @@ export class CategoryListPage implements OnInit {
   categories: Category[] = [];
   activeCategory: Category; // 当前选中的大分类
   activeSubCategory: Category;  // 当前选中的子分类
-  constructor(private categoryService: CategoryService , private actionSheetController: ActionSheetController) {
+  constructor(private categoryService: CategoryService , private actionSheetController: ActionSheetController, private router: Router) {
     // 初始化，否则模板渲染报错
-    this.activeCategory = {
-      id: 0,
-      name: '',
-      children: []
-    };
-    categoryService.getAll().then((ajaxResult) => {
-      this.categories = ajaxResult.result;
-      if (this.categories) {
-        this.activeCategory = this.categories[0];
-        // console.log(this.activeCategory)
-      }
-    });
+    // this.activeCategory = {
+    //   id: 0,
+    //   name: '',
+    //   children: []
+    // };
+    this.categories = this.categoryService.getCategorys();
+    this.activeCategory = this.categories[0];
+    // categoryService.getAll().then((ajaxResult) => {
+    //   this.categories = ajaxResult.result;
+    //   if (this.categories) {
+    //     this.activeCategory = this.categories[0];
+    //     // console.log(this.activeCategory)
+    //   }
+    // });
    }
    onSelectCategory(id: number){
-      // console.log('id=', id);
+      console.log('id=', id);
       for ( const cate of this.categories){
         if ( cate.id === id){
           this.activeCategory = cate;
@@ -38,6 +41,7 @@ export class CategoryListPage implements OnInit {
    }
    onSelectSubCategory(id: number){
     console.log('subid=', id);
+    // console.log(this.categories)
    }
 
    async onPresentActionSheet() {
@@ -48,7 +52,15 @@ export class CategoryListPage implements OnInit {
             text: '新增小分类',
             role: 'destructive',
             handler: () => {
-              console.log('Destructive clicked');
+              console.log('Destructive clicked ', this.activeCategory.id);
+              this.router.navigate(['product/category/add'], {
+                queryParams: {
+                  // title: '新增小分类',
+                  type: 1,
+                  id: this.activeCategory.id,
+                  mainName: this.activeCategory.name
+                }
+              })
             }
           },{
             text: '编辑分类',
@@ -74,6 +86,9 @@ export class CategoryListPage implements OnInit {
       return 'light';
     }
   }
+  // onClickAdd(){
+  //   this.router.navigateByUrl('/product/category/add')
+  // }
 
   ngOnInit() {
   }

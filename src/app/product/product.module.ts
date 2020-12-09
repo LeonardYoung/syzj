@@ -1,3 +1,5 @@
+import { CategoryEditPage } from './category/category-edit/category-edit.page';
+import { CategoryAddPage } from './category/category-add/category-add.page';
 import { CategoryListPage } from './category/category-list/category-list.page';
 import { SharedModule } from './../shared/shared.module';
 import { NgModule } from '@angular/core';
@@ -19,7 +21,9 @@ import { ProductPageRoutingModule } from './product-routing.module';
     SharedModule
   ],
   declarations: [
-    CategoryListPage
+    CategoryListPage,
+    CategoryAddPage,
+    CategoryEditPage
   ]
 })
 export class ProductPageModule {}

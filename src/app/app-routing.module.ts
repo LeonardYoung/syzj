@@ -34,10 +34,6 @@ const routes: Routes = [
     loadChildren: () => import('./routes/passport/passport.module').then( m => m.PassportModule)
   },
   {
-    path: 'category-list',
-    loadChildren: () => import('./product/category/category-list/category-list.module').then( m => m.CategoryListPageModule)
-  },
-  {
     path: 'product',
     loadChildren: () => import('./product/product.module').then( m => m.ProductPageModule)
   }

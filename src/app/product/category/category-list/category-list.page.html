@@ -1,6 +1,11 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>categoryList</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>商品分类</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="../add" [queryParams]="{type:0,id:1,mainName:activeCategory.name}">
+        <ion-icon slot="start" name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -27,24 +32,19 @@
           <ion-label>{{item.name}}</ion-label>
         </ion-item>
 
-        <ion-item lines="none">
-
-          <!-- <ion-icon slot="start" name="add">新增小分类</ion-icon> -->
-          <!-- <ion-icon name="add-outline"></ion-icon> -->
-          <ion-icon name="add-circle-outline"></ion-icon>
-          <ion-label color="ysj">新增小分类</ion-label>
+        <ion-item lines="none" routerLink="../add" [queryParams]="{type:1,id:activeCategory.id,mainName:activeCategory.name}">
+          <ion-text color="primary">
+            <ion-icon name="add-circle-outline"></ion-icon>新增小分类
+          </ion-text>
         </ion-item>
-
-
+        
         <ion-list class="ysj-footer" lines="none" no-margin>
           <ion-item lines="full">
           </ion-item>
           <ion-item lines="none">
             <ion-label>共{{activeCategory.children.length}}种商品分类</ion-label>
             <ion-button (click)="onPresentActionSheet()" expand="block" fill="clear" shape="round">
-              <!-- <ion-icon name="ellipsis-horizontal-outline"></ion-icon> -->
               <ion-icon name="ellipsis-horizontal"></ion-icon>
-              <!-- ... -->
             </ion-button>
           </ion-item>
         </ion-list>

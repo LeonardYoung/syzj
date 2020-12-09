@@ -5,6 +5,7 @@ export const ACCOUNT_KEY = 'Accounts';
 export const USER_ID_MAX_KEY = 'UserIdMax';
 export const LOGIN_INFO_KEY = 'LoginInfo';
 export const CURRENT_USER_KEY = 'CUser';
+export const CATEGORY_KEY = 'Category';
 
 @Injectable({
   providedIn: 'root'

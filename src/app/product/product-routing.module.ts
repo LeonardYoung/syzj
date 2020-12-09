@@ -1,3 +1,5 @@
+import { CategoryEditPage } from './category/category-edit/category-edit.page';
+import { CategoryAddPage } from './category/category-add/category-add.page';
 import { CategoryListPage } from './category/category-list/category-list.page';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -6,14 +8,17 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'category/list',
     component: CategoryListPage
-    // component: ProductPage
   },
   {
-    path: 'category-list',
-    loadChildren: () => import('./category/category-list/category-list.module').then( m => m.CategoryListPageModule)
-  }
+    path: 'category/add',
+    component: CategoryAddPage
+  },
+  {
+    path: 'category/edit',
+    component: CategoryEditPage
+  },
 ];
 
 @NgModule({

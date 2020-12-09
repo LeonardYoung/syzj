@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title *ngIf="type===0">新增分类</ion-title>
+    <ion-title *ngIf="type===1">新增小分类</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text="返回" defaultHref="product/category/list"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="light">
+  <ion-list>
+
+    <ion-item *ngIf="type===0" class="ion-margin-top" lines="none">
+      <ion-label>大分类</ion-label>
+      <ion-input type="text" [(ngModel)]="valueMain" placeholder="商品大分类名称" required></ion-input>
+    </ion-item>
+
+    <ion-item-divider *ngIf="type===1">
+      <ion-label>{{mainName}}</ion-label>
+    </ion-item-divider>
+
+    <ion-item class="ion-margin-top" lines="none" *ngFor="let cate of categoryVO">
+      <ion-label>小分类</ion-label>
+      <ion-input type="text" [(ngModel)]="cate.name" placeholder="商品小分类名称" required></ion-input>
+    </ion-item>
+
+    <ion-item lines="none" (click)="onAddSubCategory()">
+      <ion-text color="ysj">
+        <ion-icon name="add-circle-outline"></ion-icon>新增小分类
+      </ion-text>
+    </ion-item>
+
+    <ion-button (click)="onSave()" expand="full" color="primary">
+      保存
+    </ion-button>
+
+
+  </ion-list>
+
+</ion-content>
