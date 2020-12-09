@@ -19,6 +19,10 @@ const routes: Routes = [
     path: 'category/edit',
     component: CategoryEditPage
   },
+  // {
+  //   path: 'category-name-edit',
+  //   component: CategoryNameEditPage
+  // },
 ];
 
 @NgModule({

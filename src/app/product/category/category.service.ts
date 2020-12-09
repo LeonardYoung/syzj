@@ -1,4 +1,4 @@
-import { Category } from 'src/app/shared/interface/category';
+import { Category } from './../../shared/interface/category';
 import { CATEGORY_KEY, LocalStorageService } from './../../shared/services/local-storage.service';
 import { Injectable } from '@angular/core';
 import { AjaxResult } from 'src/app/shared/interface/ajax-result';
@@ -33,7 +33,7 @@ export class CategoryService {
    * @param  subName 小分类的名称
    * @return  增加好的新分类
    */
-  mainCategoryAdd(mainName: string, subCategorys: Category[]): Category[] {
+  insertMainCategory(mainName: string, subCategorys: Category[]): Category[] {
     const lastId = this.categories[this.categories.length - 1].id + 1;
     // const child: Category = {
     //   id: 0,
@@ -47,7 +47,73 @@ export class CategoryService {
     this.localStorageService.set(CATEGORY_KEY, this.categories);
     return this.categories;
   }
+  // isUniqueName()
 
+  /**
+   *
+   * @description 根据id获取大分类对象
+   * @param  mainid id
+   * @return 大分类对象
+   */
+  get(mainid: number): Category{
+    for (const cate of this.categories){
+      if ( cate.id === mainid) {
+        return cate;
+      }
+    }
+    throw new Error('id not found');
+  }
+
+  /**
+   *
+   * @description 删除一个主分类
+   * @param {number} mainid
+   * @memberof CategoryService
+   */
+  deleteMain(mainid: number){
+    this.deleteInArray(this.categories,mainid);
+    this.localStorageService.set(CATEGORY_KEY,this.categories);
+  }
+
+  /**
+   *
+   * @description 删除一个子分类
+   * @param {Category} category 所属主分类
+   * @param {number} subid 子分类id
+   */
+  deleteSub(category: Category, subid: number){
+    this.deleteInArray(category.children,subid);
+    this.localStorageService.set(CATEGORY_KEY,this.categories);
+  }
+
+  /**
+   * @private
+   * @description 从数组中删除某个指定的id
+   * @param {Category[]} categorise 数组
+   * @param {number} id id
+   * @return {*} 
+   * @memberof CategoryService
+   */
+  private deleteInArray(categorise: Category[], id: number){
+    for (const index in categorise){
+      if ( categorise[index].id === id){
+        categorise.splice(parseInt(index),1);
+        return;
+      }
+    }
+    throw new Error('id not found!');
+  }
+  /**
+   *
+   * @description 在大分类下增加一组小分类
+   * @param  main 大分类
+   * @param  subCategorys 小分类数组
+   */
+  update(main: Category, subCategorys: Category[]){
+    for (const cate of subCategorys){
+      main.children.push(cate);
+    }
+  }
   /**
    *
    * @description 增加一组小分类
@@ -55,24 +121,9 @@ export class CategoryService {
    * @param subCategorys 小分类数组
    * @return 修改后的大分类
    */
-  subCategoryAdd(mainid: number, subCategorys: Category[]): Category {
-    let cateEdit: Category;
-    let found = false;
-    for (const cate of this.categories){
-      if ( cate.id === mainid) {
-        cateEdit = cate;
-        found = true;
-      }
-    }
-    if (!found){
-      throw new Error('Main Catetory id not found');
-    }
-
-    //
-    for (const cate of subCategorys){
-      cateEdit.children.push(cate);
-    }
-    // console.log(this.categories)
+  insertSubCategory(mainid: number, subCategorys: Category[]): Category {
+    const cateEdit = this.get(mainid);
+    this.update(cateEdit, subCategorys);
     this.localStorageService.set(CATEGORY_KEY, this.categories);
 
     return cateEdit;

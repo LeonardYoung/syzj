@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { Category } from './../../../shared/interface/category';
 import { Component, OnInit } from '@angular/core';
 import { CategoryService } from '../category.service';
-import { ActionSheetController } from '@ionic/angular';
+import { ActionSheetController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-category-list',
@@ -13,7 +13,8 @@ export class CategoryListPage implements OnInit {
   categories: Category[] = [];
   activeCategory: Category; // 当前选中的大分类
   activeSubCategory: Category;  // 当前选中的子分类
-  constructor(private categoryService: CategoryService , private actionSheetController: ActionSheetController, private router: Router) {
+  constructor(private categoryService: CategoryService , private actionSheetController: ActionSheetController, private router: Router,
+    private toast: ToastController) {
     // 初始化，否则模板渲染报错
     // this.activeCategory = {
     //   id: 0,
@@ -39,9 +40,13 @@ export class CategoryListPage implements OnInit {
         }
       }
    }
-   onSelectSubCategory(id: number){
-    console.log('subid=', id);
-    // console.log(this.categories)
+   async onSelectSubCategory(id: number){
+    // console.log('subid=', id);
+    let t = await this.toast.create({
+      message: 'id=' + id,
+      duration: 3000,
+    })
+    t.present();
    }
 
    async onPresentActionSheet() {
@@ -52,20 +57,24 @@ export class CategoryListPage implements OnInit {
             text: '新增小分类',
             role: 'destructive',
             handler: () => {
-              console.log('Destructive clicked ', this.activeCategory.id);
+              // console.log('Destructive clicked ', this.activeCategory.id);
               this.router.navigate(['product/category/add'], {
                 queryParams: {
-                  // title: '新增小分类',
                   type: 1,
                   id: this.activeCategory.id,
                   mainName: this.activeCategory.name
                 }
-              })
+              });
             }
           },{
             text: '编辑分类',
             handler: () => {
-              console.log('Archive clicked');
+              // console.log('Archive clicked');
+              this.router.navigate(['product/category/edit'], {
+                queryParams: {
+                  id: this.activeCategory.id,
+                }
+              });
             }
           },{
             text: '取消',

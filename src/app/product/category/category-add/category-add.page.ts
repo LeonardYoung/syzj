@@ -1,3 +1,4 @@
+import { ToastController } from '@ionic/angular';
 import { CategoryService } from './../category.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -22,7 +23,8 @@ export class CategoryAddPage implements OnInit {
   valueMain: string;
   valueSub: string;
 
-  constructor(private activatedRoute: ActivatedRoute, private categoryService: CategoryService, private router: Router) {
+  constructor(private activatedRoute: ActivatedRoute, private categoryService: CategoryService, private router: Router
+    ,private toastctl: ToastController) {
     // 增加一个初试值
     this.categoryVO.push({
       id: -1,
@@ -56,16 +58,26 @@ export class CategoryAddPage implements OnInit {
 
   ngOnInit() {
   }
-  onSave(){
-    if (this.type === 0){
-      // 增加一个大分类
-      this.categoryService.mainCategoryAdd(this.valueMain, this.categoryVO);
-      // console.log(this.categories);
+  async onSave(){
+    const toast = await this.toastctl.create({
+      message: '添加成功',
+      duration: 3000
+    });
+    try {
+      if (this.type === 0){
+        // 增加一个大分类
+        this.categoryService.insertMainCategory(this.valueMain, this.categoryVO);
+      }
+      else if ( this.type === 1){
+        this.categoryService.insertSubCategory(this.id, this.categoryVO);
+      }
+    } catch (error) {
+      toast.message = '添加失敗';
+      console.log(error)
+      // toast.present();
     }
-    else if ( this.type === 1){
-      this.categoryService.subCategoryAdd(this.id, this.categoryVO);
-      // this.activeCategory = this.categoryService.subCategoryAdd()
-    }
+
+    toast.present();
 
     this.router.navigateByUrl('product/category/list');
   }
