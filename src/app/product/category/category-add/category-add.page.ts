@@ -3,6 +3,7 @@ import { CategoryService } from './../category.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Category } from 'src/app/shared/interface/category';
+// import { UUID } from 'angular2-uuid';
 
 @Component({
   selector: 'app-category-add',
@@ -27,7 +28,7 @@ export class CategoryAddPage implements OnInit {
     ,private toastctl: ToastController) {
     // 增加一个初试值
     this.categoryVO.push({
-      id: -1,
+      id: new Date().getTime(),
       name: ''
     });
     // this.activeCategory
@@ -82,8 +83,9 @@ export class CategoryAddPage implements OnInit {
     this.router.navigateByUrl('product/category/list');
   }
   onAddSubCategory(){
+    // const uuid = UUID.UUID();
     this.categoryVO.push({
-      id: -1,
+      id: new Date().getTime(),
       name: '',
     })
   }

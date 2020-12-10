@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { CategoryService } from '../category.service';
 import { ActionSheetController, ToastController } from '@ionic/angular';
 
+
 @Component({
   selector: 'app-category-list',
   templateUrl: './category-list.page.html',
@@ -32,7 +33,7 @@ export class CategoryListPage implements OnInit {
     // });
    }
    onSelectCategory(id: number){
-      console.log('id=', id);
+      // console.log('id=', id);
       for ( const cate of this.categories){
         if ( cate.id === id){
           this.activeCategory = cate;
@@ -42,6 +43,7 @@ export class CategoryListPage implements OnInit {
    }
    async onSelectSubCategory(id: number){
     // console.log('subid=', id);
+    // console.log()
     let t = await this.toast.create({
       message: 'id=' + id,
       duration: 3000,

@@ -44,7 +44,7 @@ export class CategoryService {
       name: mainName,
       children: subCategorys
     });
-    this.localStorageService.set(CATEGORY_KEY, this.categories);
+    this.saveToLocal();
     return this.categories;
   }
   // isUniqueName()
@@ -72,7 +72,7 @@ export class CategoryService {
    */
   deleteMain(mainid: number){
     this.deleteInArray(this.categories,mainid);
-    this.localStorageService.set(CATEGORY_KEY,this.categories);
+    this.saveToLocal();
   }
 
   /**
@@ -83,7 +83,7 @@ export class CategoryService {
    */
   deleteSub(category: Category, subid: number){
     this.deleteInArray(category.children,subid);
-    this.localStorageService.set(CATEGORY_KEY,this.categories);
+    this.saveToLocal();
   }
 
   /**
@@ -124,8 +124,18 @@ export class CategoryService {
   insertSubCategory(mainid: number, subCategorys: Category[]): Category {
     const cateEdit = this.get(mainid);
     this.update(cateEdit, subCategorys);
-    this.localStorageService.set(CATEGORY_KEY, this.categories);
+    this.saveToLocal();
 
     return cateEdit;
+  }
+
+
+  /**
+   *
+   * @description 保存到本地
+   * @memberof CategoryService
+   */
+  saveToLocal(){
+    this.localStorageService.set(CATEGORY_KEY, this.categories);
   }
 }

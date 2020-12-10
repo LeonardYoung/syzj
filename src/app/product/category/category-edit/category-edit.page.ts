@@ -43,6 +43,7 @@ export class CategoryEditPage implements OnInit {
     const {data} = await this.presentModal(this.category.name);
     if (data) {
       this.category.name = data;
+      this.categoryService.saveToLocal();
     }
   }
   async onEditSubCategoryName(item: IonItemSliding, subCategory: Category) {
@@ -51,6 +52,7 @@ export class CategoryEditPage implements OnInit {
     if (data) {
 
       subCategory.name = data;
+      this.categoryService.saveToLocal();
     }
   }
   async onDelete(item: IonItemSliding, subId?:number) {
