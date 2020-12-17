@@ -1,3 +1,5 @@
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { Router } from '@angular/router';
 import { ProductService } from './../product.service';
 import { Product } from './../product';
@@ -5,7 +7,8 @@ import { ActionSheetController, AlertController, NavController } from '@ionic/an
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CategoryService } from '../../category/category.service';
-// import { BarcodeScannerOriginal } from '@ionic-native/barcode-scanner';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 @Component({
   selector: 'app-product-add',
@@ -29,11 +32,24 @@ export class ProductAddPage implements OnInit, OnDestroy {
   // };
   private product: Product;
   subscription: Subscription;
-  constructor(private actionSheetController: ActionSheetController, private productService: ProductService,
-    private router: Router, private categoryService: CategoryService, private navControl: NavController,
-    private alertController: AlertController, 
-    // private barcodeScanner: BarcodeScannerOriginal
-    ) {
+  private options: CameraOptions = {
+    quality: 100,
+    destinationType: this.camera.DestinationType.FILE_URI,
+    encodingType: this.camera.EncodingType.JPEG,
+    mediaType: this.camera.MediaType.PICTURE
+  }
+
+  constructor(private actionSheetController: ActionSheetController,
+    private productService: ProductService,
+    private router: Router,
+    private categoryService: CategoryService,
+    private navControl: NavController,
+    private alertController: AlertController,
+    private barcodeScanner: BarcodeScanner,
+    private camera: Camera,
+    private imagePicker: ImagePicker,
+    private statusBar: StatusBar
+  ) {
     this.initProduct();
     this.subscription = this.categoryService.watchCategory().subscribe(
       (activeCategory) => {
@@ -44,20 +60,22 @@ export class ProductAddPage implements OnInit, OnDestroy {
         console.log(error)
       })
     // console.log('construct');
-  }
+    this.statusBar.overlaysWebView(true);
 
+  }
+ 
   /**
    *
    * @description 扫描条形码
    * @memberof ProductAddPage
    */
   onScan() {
-    // this.barcodeScanner.scan().then(barcodeData => {
-    //   console.log('Barcode data', barcodeData);
-    //   this.product.barcode = barcodeData.text;
-    // }).catch(err => {
-    //   console.log('Error', err);
-    // });
+    this.barcodeScanner.scan().then(barcodeData => {
+      console.log('Barcode data', barcodeData);
+      this.product.barcode = barcodeData.text;
+    }).catch(err => {
+      console.log('Error', err);
+    });
   }
 
   /**
@@ -98,10 +116,25 @@ export class ProductAddPage implements OnInit, OnDestroy {
         {
           text: '拍照',
           handler: () => {
+            this.camera.getPicture(this.options).then((imageData) => {
+              // imageData is either a base64 encoded string or a file URI
+              // If it's base64 (DATA_URL):
+              let base64Image = 'data:image/jpeg;base64,' + imageData;
+              this.product.images = [
+                base64Image,
+              ]
+            }, (err) => {
+              // Handle error
+            });
           }
         }, {
           text: '从相册选取',
           handler: () => {
+            this.imagePicker.getPictures(this.options).then((results) => {
+              for (let i = 0; i < results.length; i++) {
+                console.log('Image URI: ' + results[i]);
+              }
+            }, (err) => { });
           }
         }, {
           text: '取消',
