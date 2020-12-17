@@ -9,6 +9,7 @@ import {UUID} from 'angular2-uuid';
 })
 export class ProductService {
 
+  
   private products: Product[];
   constructor(private localStorage: LocalStorageService) {
     this.products = this.localStorage.get(PRODUCTS_KEY,[]);

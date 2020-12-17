@@ -5,6 +5,7 @@ import { ActionSheetController, AlertController, NavController } from '@ionic/an
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CategoryService } from '../../category/category.service';
+// import { BarcodeScannerOriginal } from '@ionic-native/barcode-scanner';
 
 @Component({
   selector: 'app-product-add',
@@ -20,7 +21,6 @@ export class ProductAddPage implements OnInit, OnDestroy {
   //   categoryName: '默认分类',
   //   barcode: '',
   //   images: [],
-
   //   supplierName: '',
   //   // price:0,
   //   // purchasePrice: 0,
@@ -31,7 +31,9 @@ export class ProductAddPage implements OnInit, OnDestroy {
   subscription: Subscription;
   constructor(private actionSheetController: ActionSheetController, private productService: ProductService,
     private router: Router, private categoryService: CategoryService, private navControl: NavController,
-    private alertController: AlertController) {
+    private alertController: AlertController, 
+    // private barcodeScanner: BarcodeScannerOriginal
+    ) {
     this.initProduct();
     this.subscription = this.categoryService.watchCategory().subscribe(
       (activeCategory) => {
@@ -43,6 +45,27 @@ export class ProductAddPage implements OnInit, OnDestroy {
       })
     // console.log('construct');
   }
+
+  /**
+   *
+   * @description 扫描条形码
+   * @memberof ProductAddPage
+   */
+  onScan() {
+    // this.barcodeScanner.scan().then(barcodeData => {
+    //   console.log('Barcode data', barcodeData);
+    //   this.product.barcode = barcodeData.text;
+    // }).catch(err => {
+    //   console.log('Error', err);
+    // });
+  }
+
+  /**
+   *
+   * @description 初始化视图模板
+   * @private
+   * @memberof ProductAddPage
+   */
   private initProduct(): void {
     this.product = {
       id: '',
@@ -75,12 +98,10 @@ export class ProductAddPage implements OnInit, OnDestroy {
         {
           text: '拍照',
           handler: () => {
-            // console.log('Destructive clicked ', this.activeCategory.id);
           }
         }, {
           text: '从相册选取',
           handler: () => {
-            // console.log('Archive clicked');
           }
         }, {
           text: '取消',
@@ -120,7 +141,7 @@ export class ProductAddPage implements OnInit, OnDestroy {
           handler: (data) => {
             // 参数data中包含了name和phone两个属性
             // 其它代码省略
-            console.log('Confirm Ok', data);
+            // console.log('Confirm Ok', data);
             this.product.supplierName = data.name;
             this.product.supplierPhone = data.phone;
           }
@@ -136,18 +157,6 @@ export class ProductAddPage implements OnInit, OnDestroy {
     })
     if (continu) {
       this.initProduct();
-      // this.product = {
-      //   id: '',
-      //   name: '',
-      //   categoryId: 0,
-      //   categoryName: '',
-      //   barcode: '',
-      //   images: [],
-      //   // price:0,
-      //   // purchasePrice: 0,
-      //   // remain: 0
-
-      // };
     }
     else {
       this.router.navigateByUrl('/product/category/list')
