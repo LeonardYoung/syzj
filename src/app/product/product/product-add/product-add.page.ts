@@ -133,6 +133,7 @@ export class ProductAddPage implements OnInit, OnDestroy {
             this.imagePicker.getPictures(this.options).then((results) => {
               for (let i = 0; i < results.length; i++) {
                 console.log('Image URI: ' + results[i]);
+                this.product.images.push(new Image(results[i]).baseURI)
               }
             }, (err) => { });
           }
