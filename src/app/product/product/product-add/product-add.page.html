@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>新增商品</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text="返回" defaultHref="product/category/list"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item (click)="onPresentActionSheet()">
+      <ion-thumbnail slot="start">
+        <img src="/assets/img/1.jpg">
+      </ion-thumbnail>
+      <ion-note slot="end" (click)="onPresentActionSheet()">上传图片</ion-note>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>条码</ion-label>
+      <ion-input type="text" placeholder="输入商品条码" [(ngModel)]="product.barcode"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>名称<ion-text color="primary">*</ion-text>
+      </ion-label>
+      <ion-input type="text" [(ngModel)]="product.name"></ion-input>
+    </ion-item>
+
+    <ion-item detail (click)="onSelectCatagory()">
+      <ion-label>分类<ion-text color="primary">*</ion-text>
+      </ion-label>
+      <ion-note>{{product.categoryName}}</ion-note>
+    </ion-item>
+  </ion-list>
+
+  <ion-list class="ion-margin-top">
+    <form>
+      <ion-item>
+        <ion-label>售价<ion-text color="primary">*</ion-text>
+        </ion-label>
+        <ion-input name="price" type="number" [(ngModel)]="product.price" placeholder="请输入商品售价"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>进价&nbsp;&nbsp;</ion-label>
+        <ion-input name="purchasePrice" type="number" [(ngModel)]="product.purchasePrice" placeholder="请输入商品进价"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>库存&nbsp;&nbsp;</ion-label>
+        <ion-input name="remain" type="number" [(ngModel)]="product.remain" placeholder="请输入商品库存"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>规格&nbsp;&nbsp;</ion-label>
+        <ion-input name="tsize" type="number" placeholder="规格 型号 尺码" [(ngModel)]="product.format" ></ion-input>
+      </ion-item>
+      <ion-item detail (click)="presentAlertPrompt()">
+        <ion-label>供应商&nbsp;&nbsp;</ion-label>
+        <ion-note slot="end">{{product.supplierName}}</ion-note>
+        <!-- <ion-text style="color: gray;">
+        商品供应商
+      </ion-text> -->
+        <!-- <ion-input type="number" placeholder="商品供应商"></ion-input> -->
+      </ion-item>
+    </form>
+  </ion-list>
+
+
+
+
+</ion-content>
+<ion-footer class="ion-no-border">
+  <ion-toolbar color="primary" class="ion-no-padding">
+    <ion-row class="ion-no-padding">
+      <ion-col class="ion-no-padding">
+        <ion-button expand="full" (click)="onSave()" color="primary">
+          保存
+        </ion-button>
+      </ion-col>
+      <ion-col class="ion-no-padding">
+        <ion-button expand="full" (click)="onSave(true)" color="primary">
+          继续添加
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

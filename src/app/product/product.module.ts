@@ -1,3 +1,4 @@
+import { ProductAddPage } from './product/product-add/product-add.page';
 import { CategoryNameEditPage } from './category/category-name-edit/category-name-edit.page';
 import { CategoryEditPage } from './category/category-edit/category-edit.page';
 import { CategoryAddPage } from './category/category-add/category-add.page';
@@ -25,7 +26,8 @@ import { ProductPageRoutingModule } from './product-routing.module';
     CategoryListPage,
     CategoryAddPage,
     CategoryEditPage,
-    CategoryNameEditPage
+    CategoryNameEditPage,
+    ProductAddPage
   ]
 })
 export class ProductPageModule {}

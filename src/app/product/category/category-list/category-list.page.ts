@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { Category } from './../../../shared/interface/category';
 import { Component, OnInit } from '@angular/core';
 import { CategoryService } from '../category.service';
-import { ActionSheetController, ToastController } from '@ionic/angular';
+import { ActionSheetController, NavController, ToastController } from '@ionic/angular';
 
 
 @Component({
@@ -15,7 +15,7 @@ export class CategoryListPage implements OnInit {
   activeCategory: Category; // 当前选中的大分类
   activeSubCategory: Category;  // 当前选中的子分类
   constructor(private categoryService: CategoryService , private actionSheetController: ActionSheetController, private router: Router,
-    private toast: ToastController) {
+    private toast: ToastController,private nav: NavController) {
     // 初始化，否则模板渲染报错
     // this.activeCategory = {
     //   id: 0,
@@ -41,14 +41,20 @@ export class CategoryListPage implements OnInit {
         }
       }
    }
-   async onSelectSubCategory(id: number){
+   async onSelectSubCategory(id: number,name: string){
     // console.log('subid=', id);
     // console.log()
-    let t = await this.toast.create({
-      message: 'id=' + id,
-      duration: 3000,
+    // let t = await this.toast.create({
+    //   message: 'id=' + id,
+    //   duration: 3000,
+    // })
+    // t.present();
+    this.categoryService.setActiveCategory({
+      id: id,
+      name: name,
     })
-    t.present();
+    // this.router.navigateByUrl('/product/add')
+    this.nav.back();
    }
 
    async onPresentActionSheet() {

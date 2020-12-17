@@ -1,3 +1,4 @@
+import { ProductAddPage } from './product/product-add/product-add.page';
 import { CategoryEditPage } from './category/category-edit/category-edit.page';
 import { CategoryAddPage } from './category/category-add/category-add.page';
 import { CategoryListPage } from './category/category-list/category-list.page';
@@ -18,6 +19,10 @@ const routes: Routes = [
   {
     path: 'category/edit',
     component: CategoryEditPage
+  },
+  {
+    path: 'add',
+    component: ProductAddPage
   },
   // {
   //   path: 'category-name-edit',

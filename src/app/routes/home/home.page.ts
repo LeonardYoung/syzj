@@ -9,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class HomePage implements OnInit {
 
   public homeItems = [
-    { title: '新增商品', url: '/home', icon: '/assets/img/add_sales.svg' },
+    { title: '新增商品', url: '/product/add', icon: '/assets/img/add_sales.svg' },
     { title: '新增会员', url: '/home', icon: '/assets/img/add_user.svg' },
     { title: '收银记账', url: '/home', icon: '/assets/img/sales_account.svg' },
     { title: '支出管理', url: '/home', icon: '/assets/img/a_note.svg' },

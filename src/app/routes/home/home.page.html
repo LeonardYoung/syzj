@@ -30,14 +30,14 @@
   <ion-grid fixed>
     <!-- <ion-row>
       <ion-col size="6"></ion-col>
-      <ion-col size="6"></ion-col>
+      <ion-col size="6"></ion-col> [href]="item.url"
     </ion-row> -->
     <ion-row class="grid">
       <ion-col size="3" *ngFor="let item of homeItems" >
-        <div class="grid-item">
-          <ion-icon size="large" [src]="item.icon"></ion-icon>
-          <div>{{item.title}}</div> 
-        </div>
+        <a class="grid-item" [href]="item.url" style="text-decoration: none;">
+          <ion-icon size="large" [src]="item.icon" ></ion-icon>
+          <div style="color: black;">{{item.title}}</div> 
+        </a>
       </ion-col>
     </ion-row>
   </ion-grid>

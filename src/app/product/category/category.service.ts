@@ -1,8 +1,10 @@
+import { ActiveCategory } from './active-category';
 import { Category } from './../../shared/interface/category';
 import { CATEGORY_KEY, LocalStorageService } from './../../shared/services/local-storage.service';
 import { Injectable } from '@angular/core';
 import { AjaxResult } from 'src/app/shared/interface/ajax-result';
 import { CATEGORIES } from '../mock.categories';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +12,23 @@ import { CATEGORIES } from '../mock.categories';
 export class CategoryService {
 
   categories: Category[];
-  constructor(private localStorageService: LocalStorageService ) {
+  categorySubject = new Subject<ActiveCategory>();
+  constructor(private localStorageService: LocalStorageService) {
     this.categories = this.localStorageService.get(CATEGORY_KEY, CATEGORIES);
-   }
+  }
+  watchCategory(): Observable<ActiveCategory> {
+    return this.categorySubject.asObservable();
+  }
+
+  /**
+   * @description 向订阅者发送通知，传送数据
+   * @param {ActiveCategory} category
+   * @memberof CategoryService
+   */
+  setActiveCategory(category: ActiveCategory) {
+    // console.log('aaa',category);
+    this.categorySubject.next(category);
+  }
   async getAll(): Promise<AjaxResult> {
     // this.categories = this.localStorageService.get(CATEGORY_KEY, CATEGORIES);
     return {
@@ -23,7 +39,7 @@ export class CategoryService {
       unAuthorizedRequest: false
     };
   }
-  getCategorys(): Category[]{
+  getCategorys(): Category[] {
     return this.categories;
   }
   /**
@@ -55,9 +71,9 @@ export class CategoryService {
    * @param  mainid id
    * @return 大分类对象
    */
-  get(mainid: number): Category{
-    for (const cate of this.categories){
-      if ( cate.id === mainid) {
+  get(mainid: number): Category {
+    for (const cate of this.categories) {
+      if (cate.id === mainid) {
         return cate;
       }
     }
@@ -70,8 +86,8 @@ export class CategoryService {
    * @param {number} mainid
    * @memberof CategoryService
    */
-  deleteMain(mainid: number){
-    this.deleteInArray(this.categories,mainid);
+  deleteMain(mainid: number) {
+    this.deleteInArray(this.categories, mainid);
     this.saveToLocal();
   }
 
@@ -81,8 +97,8 @@ export class CategoryService {
    * @param {Category} category 所属主分类
    * @param {number} subid 子分类id
    */
-  deleteSub(category: Category, subid: number){
-    this.deleteInArray(category.children,subid);
+  deleteSub(category: Category, subid: number) {
+    this.deleteInArray(category.children, subid);
     this.saveToLocal();
   }
 
@@ -94,10 +110,10 @@ export class CategoryService {
    * @return {*} 
    * @memberof CategoryService
    */
-  private deleteInArray(categorise: Category[], id: number){
-    for (const index in categorise){
-      if ( categorise[index].id === id){
-        categorise.splice(parseInt(index),1);
+  private deleteInArray(categorise: Category[], id: number) {
+    for (const index in categorise) {
+      if (categorise[index].id === id) {
+        categorise.splice(parseInt(index), 1);
         return;
       }
     }
@@ -109,8 +125,8 @@ export class CategoryService {
    * @param  main 大分类
    * @param  subCategorys 小分类数组
    */
-  update(main: Category, subCategorys: Category[]){
-    for (const cate of subCategorys){
+  update(main: Category, subCategorys: Category[]) {
+    for (const cate of subCategorys) {
       main.children.push(cate);
     }
   }
@@ -135,7 +151,7 @@ export class CategoryService {
    * @description 保存到本地
    * @memberof CategoryService
    */
-  saveToLocal(){
+  saveToLocal() {
     this.localStorageService.set(CATEGORY_KEY, this.categories);
   }
 }
