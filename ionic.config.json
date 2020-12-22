@@ -1,7 +1,10 @@
 {
   "name": "shengyizhuanjia",
   "integrations": {
-    "cordova": {}
+    "cordova": {},
+    "capacitor": {
+      "enabled": false
+    }
   },
   "type": "angular"
 }

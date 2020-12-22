@@ -1,3 +1,4 @@
+import { ProductService } from './../product/product.service';
 import { ActiveCategory } from './active-category';
 import { Category } from './../../shared/interface/category';
 import { CATEGORY_KEY, LocalStorageService } from './../../shared/services/local-storage.service';
@@ -13,7 +14,8 @@ export class CategoryService {
 
   categories: Category[];
   categorySubject = new Subject<ActiveCategory>();
-  constructor(private localStorageService: LocalStorageService) {
+  constructor(private localStorageService: LocalStorageService,
+    private productService: ProductService) {
     this.categories = this.localStorageService.get(CATEGORY_KEY, CATEGORIES);
   }
   watchCategory(): Observable<ActiveCategory> {
@@ -111,6 +113,11 @@ export class CategoryService {
    * @memberof CategoryService
    */
   private deleteInArray(categorise: Category[], id: number) {
+    for( const product of this.productService.products){
+      if(product.categoryId === id){
+        throw new Error('not null')
+      }
+    }
     for (const index in categorise) {
       if (categorise[index].id === id) {
         categorise.splice(parseInt(index), 1);

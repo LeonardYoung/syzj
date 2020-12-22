@@ -1,6 +1,9 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>商品分类</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text="返回"></ion-back-button>
+    </ion-buttons>
     <ion-buttons slot="end">
       <ion-button routerLink="../add" [queryParams]="{type:0,id:1,mainName:activeCategory.name}">
         <ion-icon slot="start" name="add"></ion-icon>

@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { ProductPageRoutingModule } from './product-routing.module';
+import { ProductListPage } from './product/product-list/product-list.page';
 
 // import { ProductPage } from './product.page';
 
@@ -27,7 +28,8 @@ import { ProductPageRoutingModule } from './product-routing.module';
     CategoryAddPage,
     CategoryEditPage,
     CategoryNameEditPage,
-    ProductAddPage
+    ProductAddPage,
+    ProductListPage
   ]
 })
 export class ProductPageModule {}

@@ -2,7 +2,7 @@ import { CategoryService } from './../category.service';
 import { Category } from 'src/app/shared/interface/category';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { AlertController, IonItemSliding, ModalController } from '@ionic/angular';
+import { AlertController, IonItemSliding, ModalController, ToastController } from '@ionic/angular';
 import { CategoryNameEditPage } from '../category-name-edit/category-name-edit.page';
 
 @Component({
@@ -19,7 +19,8 @@ export class CategoryEditPage implements OnInit {
   };
 
   constructor(private activeRouter: ActivatedRoute, private categoryService: CategoryService, private modalCtrl: ModalController,
-    private alertController: AlertController, private router: Router) {
+    private alertController: AlertController, private router: Router,
+    private toastctl: ToastController) {
     this.activeRouter.queryParams.subscribe(quertParsm => {
       // tslint:disable-next-line: radix
       this.id = parseInt(quertParsm.id);
@@ -40,7 +41,7 @@ export class CategoryEditPage implements OnInit {
   async onEditCategoryName(item: IonItemSliding) {
     // console.log('edit')
     item.close();
-    const {data} = await this.presentModal(this.category.name);
+    const { data } = await this.presentModal(this.category.name);
     if (data) {
       this.category.name = data;
       this.categoryService.saveToLocal();
@@ -48,14 +49,21 @@ export class CategoryEditPage implements OnInit {
   }
   async onEditSubCategoryName(item: IonItemSliding, subCategory: Category) {
     item.close();
-    const {data} = await this.presentModal(subCategory.name);
+    const { data } = await this.presentModal(subCategory.name);
     if (data) {
 
       subCategory.name = data;
       this.categoryService.saveToLocal();
     }
   }
-  async onDelete(item: IonItemSliding, subId?:number) {
+  async showError() {
+    const toast = await this.toastctl.create({
+      message: '删除失败，分类下有商品',
+      duration: 3000
+    });
+    toast.present()
+  }
+  async onDelete(item: IonItemSliding, subId?: number) {
     item.close();
     const alert = await this.alertController.create({
       header: '你确认要删除吗!',
@@ -72,13 +80,18 @@ export class CategoryEditPage implements OnInit {
           text: '确认',
           handler: () => {
             console.log('Confirm Okay');
-            if(subId){
-              this.categoryService.deleteSub(this.category,subId);
+            try {
+              if (subId) {
+                this.categoryService.deleteSub(this.category, subId);
+              }
+              else {
+                this.categoryService.deleteMain(this.category.id);
+                this.router.navigateByUrl('product/category/list')
+              }
+            } catch (error) {
+              this.showError();
             }
-            else{
-              this.categoryService.deleteMain(this.category.id);
-              this.router.navigateByUrl('product/category/list')
-            }
+            
           }
         }
       ]
