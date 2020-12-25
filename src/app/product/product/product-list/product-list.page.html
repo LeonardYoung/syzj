@@ -24,6 +24,22 @@
     </ion-buttons>
   </ion-toolbar>
 
+  <!-- <ion-toolbar>
+    <ion-text color="primary">
+      总库存 件，总成本  元
+    </ion-text>
+      <ion-icon slot="end" name="add"></ion-icon>
+  </ion-toolbar> -->
+  <ion-item>
+    <ion-text color="primary">
+      总库存{{total}}件，总成本 元
+    </ion-text>
+    <ion-button slot="end" expand="full" fill="solid" shape="round" href="/product/add">
+      <ion-icon name="add"></ion-icon>
+    </ion-button>
+  </ion-item>
+
+
   <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
     <ion-refresher-content pullingIcon="arrow-down" pullingText="下拉可以刷新" refreshingSpinner="circles"
       refreshingText="正在加载...">
@@ -44,15 +60,17 @@
           <p> {{product.price}}</p>
         </ion-text>
         <ion-text>
-          <span> 条码：{{product.id}} </span>
-          <span margin-start="">库存:{{product.stock}}</span>
+          <span> 条码：{{product.barcode}} </span>
+          <span margin-start="">库存:{{product.remain}}</span>
         </ion-text>
       </ion-label>
     </ion-item>
   </ion-list>
 
   <ion-infinite-scroll threshold="100px" (ionInfinite)="onInfinite($event)">
-    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="加载更多商品数据...">
+    <ion-infinite-scroll-content *ngIf="allLoaded===false" loadingSpinner="bubbles" loadingText="加载更多商品数据...">
+    </ion-infinite-scroll-content>
+    <ion-infinite-scroll-content *ngIf="allLoaded===true" loadingSpinner="null" loadingText="已经到底啦">
     </ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>

@@ -4,6 +4,9 @@ import { LoadingController, NavController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { AjaxResult } from 'src/app/shared/interface/ajax-result';
 import { timer } from 'rxjs';
+import { env } from 'process';
+
+const NUM_OF_PAGE=7;
 
 @Component({
   selector: 'app-product-list',
@@ -12,9 +15,11 @@ import { timer } from 'rxjs';
 })
 export class ProductListPage implements OnInit {
   currentIndex = 0;
-  total = -1;
+  total = 0;
   products: any[] = [];
   queryTerm = '';
+  allLoaded = false;  //数据是否全部加载完
+  // categoryId = -1;
 
   constructor(private navControl: NavController,
     private loadingController: LoadingController,
@@ -37,37 +42,47 @@ export class ProductListPage implements OnInit {
     this.navControl.navigateForward('/product/category/list')
   }
   onRefresh(event) {
+    this.allLoaded = false;
+    this.currentIndex = 0;
+    this.products = [];
     this.queryList(()=>{
       event.target.complete();
     })
   }
-  onInfinite(event){
-    console.log(event)
-    this.currentIndex++;
-    try {
-      const timerSub: Subscription = timer(1000).subscribe(() => {
-        
-        this.productService.getList(this.currentIndex, 10).then((ajaxResult) => {
-          this.total = ajaxResult.result.totalCount;
-          this.products = ajaxResult.result.list;
-        })
 
+  onInfinite(event){
+    // console.log(this.allLoaded)
+    if(this.allLoaded){
+      timer(1000).subscribe(()=>{
+        event.target.complete();
       })
-    } catch (error) {
-      console.log(error);
-      // 实际开发中应记录在日志文件中
+      return;
     }
+    this.currentIndex++;
+    this.queryList(()=>{
+      event.target.complete();
+    })
+  }
+  onInput(event){
+
+    this.productService.getListByCondition(event.target.value).then((ajaxResult) => {
+      this.total = ajaxResult.result.totalCount;
+      this.products = ajaxResult.result.list;
+    })
   }
   private queryList(completeFun: ()=>void) {
     try {
       const timerSub: Subscription = timer(1000).subscribe(() => {
         completeFun()
-        this.productService.getList(this.currentIndex, 10).then((ajaxResult) => {
+        this.productService.getList(this.currentIndex, NUM_OF_PAGE).then((ajaxResult) => {
           this.total = ajaxResult.result.totalCount;
-          this.products = ajaxResult.result.list;
-          this.products = this.products.concat(ajaxResult.result.list);
+          if(this.total > 0){
+            this.products = this.products.concat(ajaxResult.result.list);
+          }
+          else{
+            this.allLoaded = true;
+          }
         })
-
       })
     } catch (error) {
       console.log(error);

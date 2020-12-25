@@ -193,7 +193,7 @@ export class ProductAddPage implements OnInit, OnDestroy {
       this.initProduct();
     }
     else {
-      this.router.navigateByUrl('/product/category/list')
+      this.router.navigateByUrl('/product/list')
     }
   }
 

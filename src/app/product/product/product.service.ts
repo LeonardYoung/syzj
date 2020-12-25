@@ -31,6 +31,26 @@ export class ProductService {
 
     }
   }
+  async getListByCondition(searchProductInput): Promise<AjaxResult> {
+    let result: Product[] = [];
+    for( const item of this.products){
+      // 名字 和条形码匹配其中一个即可
+      if(item.name.indexOf(searchProductInput) >= 0){
+        result.push(item);
+      }
+      else if(item.barcode.indexOf(searchProductInput) >= 0){
+        result.push(item);
+      }
+    }
+    return {
+      success: true,
+        result: {
+          totalCount: result.length,
+          list: result
+        }
+    }
+
+  }
   async getList(index: number, size: number): Promise<AjaxResult> {
     if (index < 0) {
       // 实际开发中应抛出异常类对象
@@ -40,7 +60,7 @@ export class ProductService {
       // 实际开发中应抛出异常类对象
       throw new Error('每页显示的记录数应大于零');
     }
-    // 其他代码省略
+    // 
     const products: Product[] = this.localStorage.get(PRODUCTS_KEY,[])
     if (products.length === 0){
       return {
