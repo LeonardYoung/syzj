@@ -1,3 +1,4 @@
+import { ProductAutit } from './../../shared/interface/product-autit';
 import { LocalStorageService, PRODUCTS_KEY } from './../../shared/services/local-storage.service';
 import { Injectable } from '@angular/core';
 import { AjaxResult } from 'src/app/shared/interface/ajax-result';
@@ -50,6 +51,32 @@ export class ProductService {
         }
     }
 
+  }
+
+  /**
+   *
+   * @description 获取统计数据,若没有给参数，则统计this.products
+   * @return {*}  {ProductAutit}
+   * @memberof ProductService
+   */
+  async getAudit(para: Product[]): Promise<ProductAutit>{
+    let src : Product[];
+    if(para){
+      src = para;
+    }
+    else{
+      src = this.products;
+    }
+    let sumPrice = 0;
+    let sumRemain = 0;
+    for( const item of src){
+      sumPrice += (item.price * item.remain);
+      sumRemain += item.remain;
+    }
+    return {
+      totalRemain: sumRemain,
+      totalPrice: sumPrice,
+    }
   }
   async getList(index: number, size: number): Promise<AjaxResult> {
     if (index < 0) {

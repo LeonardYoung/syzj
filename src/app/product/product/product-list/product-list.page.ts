@@ -1,3 +1,4 @@
+import { ProductAutit } from './../../../shared/interface/product-autit';
 import { Subscription } from 'rxjs';
 import { ProductService } from './../product.service';
 import { LoadingController, NavController } from '@ionic/angular';
@@ -15,7 +16,10 @@ const NUM_OF_PAGE=7;
 })
 export class ProductListPage implements OnInit {
   currentIndex = 0;
-  total = 0;
+  audit: ProductAutit = {
+    totalRemain:0,
+    totalPrice:0
+  };
   products: any[] = [];
   queryTerm = '';
   allLoaded = false;  //数据是否全部加载完
@@ -35,6 +39,9 @@ export class ProductListPage implements OnInit {
     this.queryList(()=>{
       loading.dismiss();
     })
+    this.productService.getAudit().then((audit)=>{
+      this.audit = audit;
+    })
   }
 
 
@@ -47,6 +54,9 @@ export class ProductListPage implements OnInit {
     this.products = [];
     this.queryList(()=>{
       event.target.complete();
+    })
+    this.productService.getAudit().then((audit)=>{
+      this.audit = audit;
     })
   }
 
@@ -64,10 +74,16 @@ export class ProductListPage implements OnInit {
     })
   }
   onInput(event){
-
-    this.productService.getListByCondition(event.target.value).then((ajaxResult) => {
-      this.total = ajaxResult.result.totalCount;
+    this.productService.getListByCondition(event.target.value)
+    .then((ajaxResult) => {
       this.products = ajaxResult.result.list;
+      return ajaxResult;
+    })
+    .then((res)=>{
+      return this.productService.getAudit(res.result.list);
+    })
+    .then((auditResult)=>{
+      this.audit = auditResult;
     })
   }
   private queryList(completeFun: ()=>void) {
@@ -75,8 +91,8 @@ export class ProductListPage implements OnInit {
       const timerSub: Subscription = timer(1000).subscribe(() => {
         completeFun()
         this.productService.getList(this.currentIndex, NUM_OF_PAGE).then((ajaxResult) => {
-          this.total = ajaxResult.result.totalCount;
-          if(this.total > 0){
+          const cnt = ajaxResult.result.totalCount;
+          if(cnt > 0){
             this.products = this.products.concat(ajaxResult.result.list);
           }
           else{

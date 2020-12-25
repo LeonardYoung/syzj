@@ -10,9 +10,6 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-
-
-
 </ion-header>
 
 <ion-content>
@@ -32,7 +29,7 @@
   </ion-toolbar> -->
   <ion-item>
     <ion-text color="primary">
-      总库存{{total}}件，总成本 元
+      总库存{{audit.totalRemain}}件，总成本{{audit.totalPrice}}元
     </ion-text>
     <ion-button slot="end" expand="full" fill="solid" shape="round" href="/product/add">
       <ion-icon name="add"></ion-icon>
@@ -57,7 +54,7 @@
           <h2>{{product.name}}</h2>
         </ion-text>
         <ion-text color="primary">
-          <p> {{product.price}}</p>
+          <p>￥ {{product.price}}</p>
         </ion-text>
         <ion-text>
           <span> 条码：{{product.barcode}} </span>
