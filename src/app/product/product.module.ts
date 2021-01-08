@@ -1,3 +1,5 @@
+import { ProductDepotPage } from './product/product-depot/product-depot.page';
+import { ProductDetailPage } from './product/product-detail/product-detail.page';
 import { ProductAddPage } from './product/product-add/product-add.page';
 import { CategoryNameEditPage } from './category/category-name-edit/category-name-edit.page';
 import { CategoryEditPage } from './category/category-edit/category-edit.page';
@@ -29,7 +31,9 @@ import { ProductListPage } from './product/product-list/product-list.page';
     CategoryEditPage,
     CategoryNameEditPage,
     ProductAddPage,
-    ProductListPage
+    ProductListPage,
+    ProductDetailPage,
+    ProductDepotPage
   ]
 })
 export class ProductPageModule {}

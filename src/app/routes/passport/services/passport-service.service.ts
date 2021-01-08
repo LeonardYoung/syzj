@@ -67,7 +67,8 @@ export class PassportServiceService {
    * @param  overDay 记住登录状态的超时时间（天）
    */
   saveLoginInfo(id: number, pm: string, overDay: number){
-    const dtime = 1000 * 3600 * 24 * overDay;
+    const dtime = 1000 * 300 * overDay;//5分钟
+    // const dtime = 1000 * 3600 * 24 * overDay;
     const info: LoginInfo = {
       userid : id,
       phoneOrEmail: pm,
@@ -195,6 +196,28 @@ export class PassportServiceService {
       reject(res);
       return;
     });
+  }
+  async verification(phoneOrEmail: string, password: string): Promise<AjaxResult>{
+    const res: AjaxResult = {
+      success: true,
+    };
+    for ( const user of this.accounts){
+      if (user.identifier == phoneOrEmail || user.identifier == phoneOrEmail){
+        if (user.credential == password) {
+          return{
+            success: true,
+          }
+        }
+        else{
+          return{
+            success: false,
+          }
+        }
+      }
+    }
+    return{
+      success: false,
+    }
   }
 
   /**

@@ -44,7 +44,8 @@
   </ion-refresher>
 
   <ion-list>
-    <ion-item *ngFor="let product of products" detail="true">
+    <ion-item *ngFor="let product of products" detail="true" [routerLink]="['../detail']"
+      [queryParams]="{id:product.id}">
       <ion-thumbnail slot="start">
         <img src="assets/img/c_goodspicture.png" *ngIf="product.images.length == 0" />
         <img [src]="product.images[0]" alt="" *ngIf="product.images.length > 0">

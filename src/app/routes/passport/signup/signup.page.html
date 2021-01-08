@@ -130,7 +130,7 @@
             </ion-item>
             <ion-item *ngIf="nPassword.invalid && nPassword.touched">
                 <ion-text color="danger" *ngIf="nPassword.errors?.valid">
-                  密码格式错误
+                  密码需包含大小写字母以及数字
                   </ion-text>
                 <ion-text color="danger" *ngIf="nPassword.errors?.required">
                 请输入密码

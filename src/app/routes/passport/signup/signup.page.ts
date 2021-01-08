@@ -1,3 +1,4 @@
+import { ToastController } from '@ionic/angular';
 // import { UserVO } from './../../../shared/interface/user';
 import { AuthenticationCodeService } from './../services/authentication-code.service';
 import { SignupVO, GetCodeVO } from './signup-vo';
@@ -35,7 +36,7 @@ export class SignupPage implements OnInit{
     countMax: 60,
   };
   constructor( private codeService: AuthenticationCodeService, private passportService: PassportServiceService,
-    private alertController: AlertController) {}
+    private alertController: AlertController,private toast: ToastController) {}
   @ViewChild('signupSlides', {static: true}) signupSlides: IonSlides;
   @ViewChild('phoneForm') phoneForm: NgForm;
   @ViewChild('phone') phone: NgModule;
@@ -119,9 +120,14 @@ export class SignupPage implements OnInit{
   /**
    * @description: 监听发送验证码按钮
    */
-  onSendSMS(){
+  async onSendSMS(){
     // 生成4位验证码
-    this.codeService.createCode(4);
+    const code = this.codeService.createCode(4);
+    const toast = await this.toast.create({
+      message: '验证码：' + code,
+      duration: 3000
+    });
+    toast.present();
 
     // 使按钮不可用
     this.getCode.btnDisable = true;

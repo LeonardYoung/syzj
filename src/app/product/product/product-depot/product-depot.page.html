@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>修改库存</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text="返回" defaultHref="product/detail"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+  <form #depotForm="ngForm" (ngSubmit)="onClickDepot(depotForm)">
+    <ion-list>
+      <ion-item>
+        <ion-segment (ionChange)="segmentChanged($event)" color="primary" value=1>
+          <ion-segment-button value="1">
+            <ion-label>入库</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="2">
+            <ion-label>出库</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </ion-item>
+      <ion-item>
+        <ion-label>{{DaText}}数量</ion-label>
+        <ion-input name="depotNum" type="number" placeholder="请输入入库数量" required [(ngModel)]="depotNum" ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>备注&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</ion-label>
+        <ion-input type="text" placeholder="请输入备注"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-note slot="end">库存数量：{{nowProduct.remain}}</ion-note>
+      </ion-item>
+    </ion-list>
+
+
+    <ion-button expand="full" type="submit" [disabled]="depotForm.invalid">
+      确认{{DaText}}
+    </ion-button>
+  </form>
+
+</ion-content>

@@ -52,6 +52,49 @@ export class ProductService {
     }
 
   }
+  async productDepot(id: string,type: number, num: number): Promise<AjaxResult> {
+    for( const item of this.products){
+      if(item.id == id ){
+        if(isNaN(item.remain)){
+          item.remain = 0;
+        }
+        if(type === 1){
+          item.remain += num;
+          return {
+            success: true,
+          }
+        }else{
+          if( item.remain >= num){
+            item.remain -= num;
+            return {
+              success: true,
+              result:item
+            }
+          }
+          //库存不足
+          else {
+            return {
+              success: false,
+              error:{
+                message:'库存不足'
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  async getProductById(id: string): Promise<AjaxResult> {
+    for( const item of this.products){
+      if(item.id == id ){
+        return {
+          success: true,
+          result:item
+        }
+      }
+    }
+  }
+
 
   /**
    *
@@ -59,7 +102,7 @@ export class ProductService {
    * @return {*}  {ProductAutit}
    * @memberof ProductService
    */
-  async getAudit(para: Product[]): Promise<ProductAutit>{
+  async getAudit(para ?: Product[]): Promise<ProductAutit>{
     let src : Product[];
     if(para){
       src = para;

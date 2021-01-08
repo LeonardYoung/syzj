@@ -1,3 +1,5 @@
+import { ProductDepotPage } from './product/product-depot/product-depot.page';
+import { ProductDetailPage } from './product/product-detail/product-detail.page';
 import { ProductListPage } from './product/product-list/product-list.page';
 import { ProductAddPage } from './product/product-add/product-add.page';
 import { CategoryEditPage } from './category/category-edit/category-edit.page';
@@ -29,11 +31,15 @@ const routes: Routes = [
     path: 'list',
     component: ProductListPage
   },
+  {
+    path: 'detail',
+    component: ProductDetailPage
+  },
+  {
+    path: 'depot',
+    component: ProductDepotPage
+  },
 
-  // {
-  //   path: 'category-name-edit',
-  //   component: CategoryNameEditPage
-  // },
 ];
 
 @NgModule({
