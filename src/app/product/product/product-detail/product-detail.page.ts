@@ -1,9 +1,11 @@
+import { PovercpntComponent } from './povercpnt/povercpnt.component';
 import { PassportServiceService } from 'src/app/routes/passport/services/passport-service.service';
-import { AlertController, NavController, ToastController } from '@ionic/angular';
+import { AlertController, NavController, PopoverController, ToastController } from '@ionic/angular';
 import { ProductService } from './../product.service';
 import { Product } from './../product';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { generate } from 'rxjs';
 
 @Component({
   selector: 'app-product-detail',
@@ -17,10 +19,11 @@ export class ProductDetailPage implements OnInit {
     id: "",
   };
   verification: boolean = false;
+  nowPopover:any = null;
   
   constructor(private activatedRoute: ActivatedRoute, private productService : ProductService,
     private alertController: AlertController,private passportService: PassportServiceService,
-    private toastCtl: ToastController) { }
+    private toastCtl: ToastController,public popoverController: PopoverController) { }
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe( params => {
@@ -30,14 +33,32 @@ export class ProductDetailPage implements OnInit {
         if(isNaN(this.nowProduct.remain)){
           this.nowProduct.remain = 0;
         }
+        this.productService.setCurrentProductDetail(this.nowProduct);
       })
     })
   }
   onClickShare(){
 
   }
+  openPopover(ev){
+    const d = this.presentPopover(ev);
+    console.log(d)
+  }
   checkVf(){
     this.presentAlertPrompt()
+  }
+  async presentPopover(ev: any) {
+    this.nowPopover = await this.popoverController.create({
+      component: PovercpntComponent,
+      // cssClass: 'my-custom-class',
+      event: ev,
+      translucent: true
+    });
+    this.nowPopover.onDidDismiss().then(v => {
+      console.log('close pop',  v);
+    });
+
+    return await this.nowPopover.present();
   }
   async showVfResult(result:boolean){
     const toast = await this.toastCtl.create({

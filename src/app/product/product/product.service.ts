@@ -12,6 +12,7 @@ export class ProductService {
 
 
   public products: Product[];
+  private curProduct: Product;
   constructor(private localStorage: LocalStorageService) {
     this.products = this.localStorage.get(PRODUCTS_KEY, []);
   }
@@ -32,6 +33,8 @@ export class ProductService {
 
     }
   }
+  
+  
   async getListByCondition(searchProductInput): Promise<AjaxResult> {
     let result: Product[] = [];
     for( const item of this.products){
@@ -91,6 +94,19 @@ export class ProductService {
           success: true,
           result:item
         }
+      }
+    }
+  }
+
+  setCurrentProductDetail(input: Product):void {
+    this.curProduct = input;
+  }
+  deleteCurrentProduct(){
+    for( const index in this.products){
+      if(this.products[index].id == this.curProduct.id ){
+        this.products.splice(parseInt(index),1);
+        this.localStorage.set(PRODUCTS_KEY, this.products);
+        return;
       }
     }
   }

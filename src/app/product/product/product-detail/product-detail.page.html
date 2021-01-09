@@ -4,6 +4,11 @@
     <ion-buttons slot="start">
       <ion-back-button text="商品列表" defaultHref="product/list"></ion-back-button>
     </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="openPopover($event)">
+        <ion-icon name="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
