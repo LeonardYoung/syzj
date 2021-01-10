@@ -1,3 +1,4 @@
+import { PopoverController, NavParams } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ProductService } from './../../product.service';
 import { Component, OnInit } from '@angular/core';
@@ -9,13 +10,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PovercpntComponent implements OnInit {
 
-  constructor(private productService: ProductService,private router :Router) { }
+  id:string;
+  constructor(private popoverCtl: PopoverController,
+    private navParams: NavParams) {
+      this.id = this.navParams.data['id'];
+     }
 
   ngOnInit() {}
 
+  onEdit(){
+    this.popoverCtl.dismiss('edit')
+  }
   onDelete(){
-    this.productService.deleteCurrentProduct();
-    this.router.navigateByUrl('product/list')
+    this.popoverCtl.dismiss('delete')
   }
 
 }

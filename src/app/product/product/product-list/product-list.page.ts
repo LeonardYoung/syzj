@@ -30,7 +30,10 @@ export class ProductListPage implements OnInit {
     private productService: ProductService) { }
 
   async ngOnInit() {
-    // 自行添加初始化代码
+    
+  }
+  
+  async ionViewWillEnter () {
     const loading = await this.loadingController.create({
       message: '正在加载数据，请稍候...',
       spinner: 'bubbles',
@@ -53,7 +56,8 @@ export class ProductListPage implements OnInit {
     this.currentIndex = 0;
     this.products = [];
     this.queryList(()=>{
-      event.target.complete();
+      if(event)
+        event.target.complete();
     })
     this.productService.getAudit().then((audit)=>{
       this.audit = audit;

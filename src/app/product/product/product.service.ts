@@ -56,6 +56,14 @@ export class ProductService {
 
   }
   async productDepot(id: string,type: number, num: number): Promise<AjaxResult> {
+    if(num <= 0){
+      return {
+        success: false,
+        error:{
+          message:'出入库数量必须大于0'
+        }
+      }
+    }
     for( const item of this.products){
       if(item.id == id ){
         if(isNaN(item.remain)){
@@ -98,12 +106,10 @@ export class ProductService {
     }
   }
 
-  setCurrentProductDetail(input: Product):void {
-    this.curProduct = input;
-  }
-  deleteCurrentProduct(){
+
+  deleteProductById(inputId:string){
     for( const index in this.products){
-      if(this.products[index].id == this.curProduct.id ){
+      if(this.products[index].id == inputId ){
         this.products.splice(parseInt(index),1);
         this.localStorage.set(PRODUCTS_KEY, this.products);
         return;

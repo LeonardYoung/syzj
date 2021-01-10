@@ -3,7 +3,7 @@ import { PassportServiceService } from 'src/app/routes/passport/services/passpor
 import { AlertController, NavController, PopoverController, ToastController } from '@ionic/angular';
 import { ProductService } from './../product.service';
 import { Product } from './../product';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { generate } from 'rxjs';
 
@@ -23,7 +23,8 @@ export class ProductDetailPage implements OnInit {
   
   constructor(private activatedRoute: ActivatedRoute, private productService : ProductService,
     private alertController: AlertController,private passportService: PassportServiceService,
-    private toastCtl: ToastController,public popoverController: PopoverController) { }
+    private toastCtl: ToastController,public popoverController: PopoverController,
+    private router: Router) { }
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe( params => {
@@ -33,7 +34,6 @@ export class ProductDetailPage implements OnInit {
         if(isNaN(this.nowProduct.remain)){
           this.nowProduct.remain = 0;
         }
-        this.productService.setCurrentProductDetail(this.nowProduct);
       })
     })
   }
@@ -41,8 +41,8 @@ export class ProductDetailPage implements OnInit {
 
   }
   openPopover(ev){
-    const d = this.presentPopover(ev);
-    console.log(d)
+    this.presentPopover(ev);
+    
   }
   checkVf(){
     this.presentAlertPrompt()
@@ -54,11 +54,21 @@ export class ProductDetailPage implements OnInit {
       event: ev,
       translucent: true
     });
-    this.nowPopover.onDidDismiss().then(v => {
-      console.log('close pop',  v);
-    });
 
-    return await this.nowPopover.present();
+    await this.nowPopover.present();
+    const { data } = await this.nowPopover.onWillDismiss();
+    if(data === 'edit'){
+      const toast = await this.toastCtl.create({
+        message:'功能未开发',
+        duration: 1500
+      });
+      toast.present()
+    }
+    else if(data === 'delete'){
+      this.productService.deleteProductById(this.nowId)
+      this.router.navigateByUrl('product/list')
+    }
+
   }
   async showVfResult(result:boolean){
     const toast = await this.toastCtl.create({
