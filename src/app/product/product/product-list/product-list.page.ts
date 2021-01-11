@@ -34,6 +34,9 @@ export class ProductListPage implements OnInit {
   }
   
   async ionViewWillEnter () {
+    this.allLoaded = false;
+    this.currentIndex = 0;
+    this.products = [];
     const loading = await this.loadingController.create({
       message: '正在加载数据，请稍候...',
       spinner: 'bubbles',

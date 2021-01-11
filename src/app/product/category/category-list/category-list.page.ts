@@ -42,19 +42,11 @@ export class CategoryListPage implements OnInit {
       }
    }
    async onSelectSubCategory(id: number,name: string){
-    // console.log('subid=', id);
-    // console.log()
-    // let t = await this.toast.create({
-    //   message: 'id=' + id,
-    //   duration: 3000,
-    // })
-    // t.present();
     this.categoryService.setActiveCategory({
       id: id,
       name: name,
     })
-    // this.router.navigateByUrl('/product/add')
-    this.nav.back();
+    this.nav.navigateForward('/product/add')
    }
 
    async onPresentActionSheet() {
@@ -65,7 +57,6 @@ export class CategoryListPage implements OnInit {
             text: '新增小分类',
             role: 'destructive',
             handler: () => {
-              // console.log('Destructive clicked ', this.activeCategory.id);
               this.router.navigate(['product/category/add'], {
                 queryParams: {
                   type: 1,
@@ -77,7 +68,6 @@ export class CategoryListPage implements OnInit {
           },{
             text: '编辑分类',
             handler: () => {
-              // console.log('Archive clicked');
               this.router.navigate(['product/category/edit'], {
                 queryParams: {
                   id: this.activeCategory.id,

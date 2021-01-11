@@ -1,6 +1,7 @@
+import { ShareModalComponent } from './share-modal/share-modal.component';
 import { PovercpntComponent } from './povercpnt/povercpnt.component';
 import { PassportServiceService } from 'src/app/routes/passport/services/passport-service.service';
-import { AlertController, NavController, PopoverController, ToastController } from '@ionic/angular';
+import { AlertController, ModalController, NavController, PopoverController, ToastController } from '@ionic/angular';
 import { ProductService } from './../product.service';
 import { Product } from './../product';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -24,7 +25,7 @@ export class ProductDetailPage implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, private productService : ProductService,
     private alertController: AlertController,private passportService: PassportServiceService,
     private toastCtl: ToastController,public popoverController: PopoverController,
-    private router: Router) { }
+    private router: Router,private modalCtrl: ModalController) { }
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe( params => {
@@ -37,8 +38,26 @@ export class ProductDetailPage implements OnInit {
       })
     })
   }
-  onClickShare(){
-
+  async onClickShare(){
+    const modal = await this.modalCtrl.create({
+      component: ShareModalComponent,
+      cssClass: 'my-custom-class'//this did't work???
+    });
+    await modal.present();
+    const {data} = await modal.onWillDismiss();
+    const toast = await this.toastCtl.create({
+      duration: 1000,
+      position:'middle'
+    });
+    if(data){
+      if(data === 'cannel'){
+        toast.message = '分享取消'
+      }
+      else{
+        toast.message = `分享到${data},功能未开发`
+      }
+      toast.present();
+    }
   }
   openPopover(ev){
     this.presentPopover(ev);
@@ -59,8 +78,9 @@ export class ProductDetailPage implements OnInit {
     const { data } = await this.nowPopover.onWillDismiss();
     if(data === 'edit'){
       const toast = await this.toastCtl.create({
-        message:'功能未开发',
-        duration: 1500
+        message:'修改功能未开发',
+        duration: 1500,
+        position:'middle'
       });
       toast.present()
     }
@@ -72,7 +92,8 @@ export class ProductDetailPage implements OnInit {
   }
   async showVfResult(result:boolean){
     const toast = await this.toastCtl.create({
-      duration: 1500
+      duration: 1500,
+      position:'top'
     });
     toast.message = ( result ? '验证成功':'验证失败')
     toast.present()

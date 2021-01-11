@@ -45,7 +45,8 @@ export class ProductDepotPage implements OnInit {
     this.productService.productDepot(this.nowProduct.id,this.nowSegment,this.depotNum).then(async ajaxResult=>{
       const toast = await this.toastctl.create({
         message: '修改成功',
-        duration: 1000
+        duration: 1000,
+        position:'middle'
       });
       if(ajaxResult.success){
         this.nav.back();

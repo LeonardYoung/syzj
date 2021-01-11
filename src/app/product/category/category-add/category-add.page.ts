@@ -62,7 +62,8 @@ export class CategoryAddPage implements OnInit {
   async onSave(){
     const toast = await this.toastctl.create({
       message: '添加成功',
-      duration: 3000
+      duration: 3000,
+      position:'middle'
     });
     try {
       if (this.type === 0){

@@ -14,10 +14,10 @@
 <ion-content color="medium">
   <ion-list inset="true">
     <ion-item>
-      <ion-input #valueinput="ngModel" type="text" [placeholder]="title" [(ngModel)]="value"></ion-input>
+      <ion-input #valueinput="ngModel" type="text" required [placeholder]="title" [(ngModel)]="value"></ion-input>
       
     </ion-item>
-    <ion-button (click)="onSave()" color="ysj" expand="full">
+    <ion-button (click)="onSave()" color="ysj" expand="full" [disabled]="valueinput.invalid">
       <!-- <ion-button expand="full"  color="primary" (click)="onCodeNext()"> -->
       保存
       </ion-button>

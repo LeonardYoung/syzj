@@ -19,9 +19,9 @@
 <ion-content>
   <ion-list>
     <ion-item>
-      <ion-input type="text" placeholder="分类名称" [(ngModel)]="name"></ion-input>
+      <ion-input  #valueinput="ngModel" required type="text" placeholder="分类名称" [(ngModel)]="name"></ion-input>
     </ion-item>
-    <ion-button (click)="onSave()" expand="full" color="primary">
+    <ion-button (click)="onSave()" expand="full" color="primary" [disabled]="valueinput.invalid">
       保存
     </ion-button>
   </ion-list>

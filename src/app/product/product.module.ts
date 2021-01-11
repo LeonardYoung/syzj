@@ -1,3 +1,4 @@
+import { ShareModalComponent } from './product/product-detail/share-modal/share-modal.component';
 import { ProductDepotPage } from './product/product-depot/product-depot.page';
 import { ProductDetailPage } from './product/product-detail/product-detail.page';
 import { ProductAddPage } from './product/product-add/product-add.page';
@@ -33,7 +34,8 @@ import { ProductListPage } from './product/product-list/product-list.page';
     ProductAddPage,
     ProductListPage,
     ProductDetailPage,
-    ProductDepotPage
+    ProductDepotPage,
+    ShareModalComponent
   ]
 })
 export class ProductPageModule {}

@@ -33,7 +33,8 @@ export class CategoryEditPage implements OnInit {
   async presentModal(name: string) {
     const modal = await this.modalCtrl.create({
       component: CategoryNameEditPage,
-      componentProps: { value: name }
+      componentProps: { value: name },
+      cssClass: 'my-custom-class'
     });
     await modal.present();
     return modal.onWillDismiss();
@@ -59,7 +60,8 @@ export class CategoryEditPage implements OnInit {
   async showError() {
     const toast = await this.toastctl.create({
       message: '删除失败，分类下有商品',
-      duration: 3000
+      duration: 3000,
+      position:'middle'
     });
     toast.present()
   }

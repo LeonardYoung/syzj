@@ -1,3 +1,16 @@
-<p>
-  share-modal works!
-</p>
+<ion-content>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="3" *ngFor="let item of items" >
+        <a class="grid-item" (click)="onClickItem(item.name)"  style="text-decoration: none;">
+          <ion-icon size="large" [name]="item.icon" ></ion-icon>
+          <div style="color: black;">{{item.name}}</div> 
+        </a>
+      </ion-col>
+      <ion-col size="3"></ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-button (click)="onClickCannel()" expand="block" shape="round" color="primary">
+    取消
+  </ion-button>
+</ion-content>
